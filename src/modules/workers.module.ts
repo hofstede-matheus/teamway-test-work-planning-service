@@ -19,6 +19,10 @@ import { WorkersController } from '../presentation/http/controllers/WorkersContr
       provide: CreateWorkerUsecase,
       useClass: CreateWorkerUsecase,
     },
+    {
+      provide: FindWorkersUsecase,
+      useClass: FindWorkersUsecase,
+    },
   ],
   exports: [WorkerRepository],
 })

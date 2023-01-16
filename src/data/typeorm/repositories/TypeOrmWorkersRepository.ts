@@ -10,16 +10,46 @@ export class TypeOrmWorkersRepository implements WorkerRepository {
     private readonly workersRepository: Repository<Worker>,
   ) {}
 
-  findByName(name: string): Promise<WorkerEntity[]> {
-    throw new Error('Method not implemented.');
+  async findByName(name: string): Promise<WorkerEntity[]> {
+    const workersFromDatabase = await this.workersRepository.query(
+      `
+      SELECT * FROM workers WHERE name LIKE $1
+      `,
+      [`${name}%`],
+    );
+
+    const mappedWorkers: WorkerEntity[] = workersFromDatabase.map((client) => {
+      return {
+        id: client.id,
+        name: client.name,
+        createdAt: client.created_at,
+        updatedAt: client.updated_at,
+      };
+    });
+
+    return mappedWorkers;
   }
 
-  findById(id: string): Promise<WorkerEntity> {
-    throw new Error('Method not implemented.');
+  async findById(id: string): Promise<WorkerEntity> {
+    const worker = await this.workersRepository.findOne({ where: { id } });
+
+    return {
+      id: worker.id,
+      name: worker.name,
+      createdAt: worker.createdAt,
+      updatedAt: worker.updatedAt,
+    };
   }
 
-  findAll(): Promise<WorkerEntity[]> {
-    throw new Error('Method not implemented.');
+  async findAll(): Promise<WorkerEntity[]> {
+    const workers = await this.workersRepository.find();
+
+    return workers.map((worker) => ({
+      id: worker.id,
+      name: worker.name,
+      createdAt: worker.createdAt,
+      updatedAt: worker.updatedAt,
+    }));
   }
 
   async create(name: string): Promise<WorkerEntity> {
