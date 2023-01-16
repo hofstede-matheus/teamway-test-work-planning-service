@@ -1,4 +1,8 @@
 import { HttpException } from '@nestjs/common';
+import {
+  InvalidIdError,
+  InvalidNameError,
+} from '../../../domain/errors/domain-errors';
 import { DomainError } from '../../../shared/helpers/errors';
 
 export class PresentationException extends HttpException {
@@ -12,6 +16,12 @@ export class PresentationException extends HttpException {
 
 export function toPresentationError(error: DomainError): HttpException {
   switch (error.constructor) {
+    case InvalidIdError:
+      return new PresentationException(error, 400);
+
+    case InvalidNameError:
+      return new PresentationException(error, 400);
+
     default:
       console.error('ERROR NOT MAPPED', error);
       return new HttpException('Internal server error', 500);

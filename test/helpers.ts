@@ -3,6 +3,8 @@ import { Test } from '@nestjs/testing';
 import { WorkerRepository } from '../src/domain/repositories/WorkerRepository';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { WorkersModule } from '../src/modules/workers.module';
+import { Worker } from '../src/data/typeorm/entities/Worker';
 
 export const VALID_WORKER = {
   id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
@@ -20,9 +22,9 @@ export const ALL_REPOSITORIES_PROVIDERS: Provider[] = [
   },
 ];
 
-export const ALL_MODULES = [];
+export const ALL_MODULES = [WorkersModule];
 
-export const ALL_TYPEORM_ENTITIES = [];
+export const ALL_TYPEORM_ENTITIES = [Worker];
 
 export const TEST_CONFIG = [
   ...ALL_MODULES,
@@ -50,8 +52,5 @@ export async function generateTestingApp(): Promise<INestApplication> {
   }).compile();
 
   const app = module.createNestApplication();
-  app.enableVersioning({
-    type: VersioningType.URI,
-  });
   return app;
 }

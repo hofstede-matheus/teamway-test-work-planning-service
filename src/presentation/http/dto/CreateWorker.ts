@@ -4,4 +4,7 @@ export class CreateWorkerRequest {
 
 export class CreateWorkerResponse {
   id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
