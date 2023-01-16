@@ -1,12 +1,5 @@
 import * as Joi from 'joi';
-import {
-  InvalidDateError,
-  InvalidEmailError,
-  InvalidIdError,
-  InvalidPasswordError,
-  InvalidUrlError,
-  InvalidValueError,
-} from '../../domain/errors';
+import { InvalidIdError } from '../../domain/errors/domain-errors';
 import { Either, left, right } from './either';
 import { DomainError } from './errors';
 
@@ -28,26 +21,12 @@ type OrUndefined<T> = (T | undefined)[];
 //         .error(() => new InvalidEmailError()),
 
 interface ValidatorParams {
-  email?: OrUndefined<string>;
   id?: OrUndefined<string>;
-  url?: OrUndefined<string>;
-  password?: OrUndefined<string>;
-  date?: OrUndefined<string>;
-  userEntityTypes?: OrUndefined<string>;
 }
 
 export class Validator {
   static validate(input: ValidatorParams): Either<DomainError, boolean> {
     const schema = Joi.object<ValidatorParams, true>({
-      // add rules for each parameter in ValidatorParams
-      email: Joi.array()
-        .sparse()
-        .items(
-          Joi.string()
-            .email()
-            .error(() => new InvalidEmailError()),
-        ),
-
       id: Joi.array()
         .sparse()
         .items(
@@ -55,34 +34,7 @@ export class Validator {
             .uuid()
             .error(() => new InvalidIdError()),
         ),
-
-      url: Joi.array()
-        .sparse()
-        .items(
-          Joi.string()
-            .uri()
-            .error(() => new InvalidUrlError()),
-        ),
-
-      password: Joi.array()
-        .sparse()
-        .items(
-          Joi.string()
-            .min(8)
-            .error(() => new InvalidPasswordError()),
-        ),
-
-      date: Joi.array()
-        .sparse()
-        .items(Joi.date().error(() => new InvalidDateError())),
-
-      userEntityTypes: Joi.array()
-        .sparse()
-        .items(
-          Joi.string()
-            .valid('TYPE_COORDINATOR', 'TYPE_ATTENDENT')
-            .error(() => new InvalidValueError()),
-        ),
+      // add rules for each parameter in ValidatorParams
     });
 
     const validation = schema.validate({ ...input });
