@@ -10,8 +10,8 @@ export class TypeOrmWorkersRepository implements WorkerRepository {
     private readonly workersRepository: Repository<Worker>,
   ) {}
 
-  remove(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async remove(id: string): Promise<void> {
+    await this.workersRepository.delete(id);
   }
 
   async update(worker: Partial<WorkerEntity>): Promise<WorkerEntity> {
@@ -50,6 +50,8 @@ export class TypeOrmWorkersRepository implements WorkerRepository {
 
   async findById(id: string): Promise<WorkerEntity> {
     const worker = await this.workersRepository.findOne({ where: { id } });
+
+    if (!worker) return undefined;
 
     return {
       id: worker.id,

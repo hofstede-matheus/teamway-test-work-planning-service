@@ -2,6 +2,7 @@ import { HttpException } from '@nestjs/common';
 import {
   InvalidIdError,
   InvalidNameError,
+  UserNotFoundError,
 } from '../../../domain/errors/domain-errors';
 import { DomainError } from '../../../shared/helpers/errors';
 
@@ -21,6 +22,9 @@ export function toPresentationError(error: DomainError): HttpException {
 
     case InvalidNameError:
       return new PresentationException(error, 400);
+
+    case UserNotFoundError:
+      return new PresentationException(error, 404);
 
     default:
       console.error('ERROR NOT MAPPED', error);

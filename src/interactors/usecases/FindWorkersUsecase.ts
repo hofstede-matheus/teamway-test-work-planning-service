@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { WorkerEntity } from '../../domain/entities/Worker.entity';
+import { UserNotFoundError } from '../../domain/errors/domain-errors';
 import { WorkerRepository } from '../../domain/repositories/WorkerRepository';
 import { Either, left, right } from '../../shared/helpers/either';
 import { DomainError } from '../../shared/helpers/errors';
@@ -26,6 +27,8 @@ export class FindWorkersUsecase implements UseCase {
       if (validation.isLeft()) return left(validation.value);
 
       const worker = await this.workerRepository.findById(workerId);
+
+      if (!worker) return left(new UserNotFoundError());
 
       return right([worker]);
     } else if (nameQuery) {

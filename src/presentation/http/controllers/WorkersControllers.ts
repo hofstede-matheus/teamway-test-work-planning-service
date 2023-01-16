@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -9,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateWorkerUsecase } from '../../../interactors/usecases/CreateWorkerUsecase';
 import { FindWorkersUsecase } from '../../../interactors/usecases/FindWorkersUsecase';
+import { RemoveWorkerUsecase } from '../../../interactors/usecases/RemoveWorkerUsecase';
 import { UpdateWorkerUsecase } from '../../../interactors/usecases/UpdateWorkerUsecase';
 import { CreateWorkerRequest, CreateWorkerResponse } from '../dto/CreateWorker';
 import {
@@ -24,6 +26,7 @@ export class WorkersController {
     private readonly createWorkerUsecase: CreateWorkerUsecase,
     private readonly findWorkersUsecase: FindWorkersUsecase,
     private readonly updateWorkerUsecase: UpdateWorkerUsecase,
+    private readonly removeWorkerUsecase: RemoveWorkerUsecase,
   ) {}
 
   @Post()
@@ -89,5 +92,14 @@ export class WorkersController {
       createdAt: result.value.createdAt,
       updatedAt: result.value.updatedAt,
     };
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<void> {
+    const result = await this.removeWorkerUsecase.execute(id);
+
+    if (result.isLeft()) throw toPresentationError(result.value);
+
+    return;
   }
 }

@@ -156,7 +156,7 @@ describe('workers', () => {
     expect(bodyOfGetWorkerRequest.updatedAt).toBeDefined();
   });
 
-  it('shoud be able to update a worker', async () => {
+  it('shoud be able to remove a worker', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
