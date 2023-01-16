@@ -8,16 +8,16 @@ services:
     depends_on:
       - "db"
   db:
-    image: 'postgres:9.6-alpine'
+    image: 'postgres:15.1-alpine'
     ports:
       - '5432:5432'
     volumes:
       - 'postgres_data:/var/lib/postgresql/data'
       - ./initdb.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      - POSTGRES_USER=sisfila2
-      - POSTGRES_PASSWORD=sisfila2
-      - POSTGRES_DB=sisfila2
+      - POSTGRES_USER=teamway-test-work-planning-service
+      - POSTGRES_PASSWORD=teamway-test-work-planning-service
+      - POSTGRES_DB=teamway-test-work-planning-service
 
 volumes:
   postgres_data:
