@@ -6,7 +6,6 @@ import {
 } from '../../../src/domain/errors/domain-errors';
 import { WorkerRepository } from '../../../src/domain/repositories/WorkerRepository';
 import { UpdateWorkerUsecase } from '../../../src/interactors/usecases/UpdateWorkerUsecase';
-import { Either } from '../../../src/shared/helpers/either';
 import { ALL_REPOSITORIES_PROVIDERS, VALID_WORKER } from '../../helpers';
 
 describe('UpdateWorkerUsecase', () => {
