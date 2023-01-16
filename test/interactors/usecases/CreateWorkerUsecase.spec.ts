@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { WorkerEntity } from '../../../src/domain/entities/Worker.entity';
 import { InvalidNameError } from '../../../src/domain/errors/domain-errors';
 import { WorkerRepository } from '../../../src/domain/repositories/WorkerRepository';
 import { CreateWorkerUsecase } from '../../../src/interactors/usecases/CreateWorkerUsecase';
@@ -35,7 +36,7 @@ describe('CreateWorkerUsecase', () => {
     const response = await useCase.execute(VALID_WORKER.name);
 
     expect(response.isRight()).toBeTruthy();
-    expect(response.value.id).toBe(VALID_WORKER.id);
-    expect(response.value.name).toBe(VALID_WORKER.name);
+    expect((response.value as WorkerEntity).id).toBe(VALID_WORKER.id);
+    expect((response.value as WorkerEntity).name).toBe(VALID_WORKER.name);
   });
 });

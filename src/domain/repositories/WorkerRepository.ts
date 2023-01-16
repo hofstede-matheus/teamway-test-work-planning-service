@@ -5,6 +5,7 @@ export interface WorkerRepository {
   findByName(name: string): Promise<WorkerEntity[]>;
   findById(id: string): Promise<WorkerEntity | undefined>;
   findAll(): Promise<WorkerEntity[]>;
+  update(worker: Partial<WorkerEntity>): Promise<WorkerEntity>;
 }
 
 export const WorkerRepository = Symbol('WorkerRepository');

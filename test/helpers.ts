@@ -21,6 +21,7 @@ export const ALL_REPOSITORIES_PROVIDERS: Provider[] = [
       findAll: jest.fn(),
       findById: jest.fn(),
       findByName: jest.fn(),
+      update: jest.fn(),
     } as WorkerRepository,
   },
 ];
