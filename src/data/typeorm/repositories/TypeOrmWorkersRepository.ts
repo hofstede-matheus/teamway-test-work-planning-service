@@ -10,8 +10,18 @@ export class TypeOrmWorkersRepository implements WorkerRepository {
     private readonly workersRepository: Repository<Worker>,
   ) {}
 
-  update(worker: Partial<WorkerEntity>): Promise<WorkerEntity> {
-    throw new Error('Method not implemented.');
+  async update(worker: Partial<WorkerEntity>): Promise<WorkerEntity> {
+    await this.workersRepository.update(worker.id, worker);
+
+    const updatedUser = await this.workersRepository.findOne({
+      where: { id: worker.id },
+    });
+    return {
+      id: updatedUser.id,
+      name: updatedUser.name,
+      createdAt: updatedUser.createdAt,
+      updatedAt: updatedUser.updatedAt,
+    };
   }
 
   async findByName(name: string): Promise<WorkerEntity[]> {
@@ -59,12 +69,12 @@ export class TypeOrmWorkersRepository implements WorkerRepository {
   async create(name: string): Promise<WorkerEntity> {
     const worker = this.workersRepository.create({ name });
 
-    const userInDatabase = await this.workersRepository.save(worker);
+    const workerInDatabase = await this.workersRepository.save(worker);
     return {
-      id: userInDatabase.id,
-      name: userInDatabase.name,
-      createdAt: userInDatabase.createdAt,
-      updatedAt: userInDatabase.updatedAt,
+      id: workerInDatabase.id,
+      name: workerInDatabase.name,
+      createdAt: workerInDatabase.createdAt,
+      updatedAt: workerInDatabase.updatedAt,
     };
   }
 }

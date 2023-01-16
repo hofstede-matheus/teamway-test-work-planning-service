@@ -1,11 +1,21 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateWorkerUsecase } from '../../../interactors/usecases/CreateWorkerUsecase';
 import { FindWorkersUsecase } from '../../../interactors/usecases/FindWorkersUsecase';
+import { UpdateWorkerUsecase } from '../../../interactors/usecases/UpdateWorkerUsecase';
 import { CreateWorkerRequest, CreateWorkerResponse } from '../dto/CreateWorker';
 import {
   FindAllWorkersResponse,
   FindWorkerByIdResponse,
 } from '../dto/FindWorkers';
+import { UpdateWorkerRequest, UpdateWorkerResponse } from '../dto/UpdateWorker';
 import { toPresentationError } from '../errors/errors';
 
 @Controller('workers')
@@ -13,10 +23,11 @@ export class WorkersController {
   constructor(
     private readonly createWorkerUsecase: CreateWorkerUsecase,
     private readonly findWorkersUsecase: FindWorkersUsecase,
+    private readonly updateWorkerUsecase: UpdateWorkerUsecase,
   ) {}
 
   @Post()
-  async createUser(
+  async createWorker(
     @Body() body: CreateWorkerRequest,
   ): Promise<CreateWorkerResponse> {
     const result = await this.createWorkerUsecase.execute(body.name);
@@ -59,5 +70,24 @@ export class WorkersController {
     }));
 
     return workers;
+  }
+
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() body: UpdateWorkerRequest,
+  ): Promise<UpdateWorkerResponse> {
+    const result = await this.updateWorkerUsecase.execute(id, {
+      name: body.name,
+    });
+
+    if (result.isLeft()) throw toPresentationError(result.value);
+
+    return {
+      id: result.value.id,
+      name: result.value.name,
+      createdAt: result.value.createdAt,
+      updatedAt: result.value.updatedAt,
+    };
   }
 }

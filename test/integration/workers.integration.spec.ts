@@ -144,5 +144,15 @@ describe('workers', () => {
     expect(bodyOfUpdateWorkerRequest.name).toBe(VALID_WORKER.name + '_2');
     expect(bodyOfUpdateWorkerRequest.createdAt).toBeDefined();
     expect(bodyOfUpdateWorkerRequest.updatedAt).toBeDefined();
+
+    const { body: bodyOfGetWorkerRequest } = await request(app.getHttpServer())
+      .get(`/workers/${bodyOfCreateWorkerRequest.id}`)
+      .set('Accept', 'application/json')
+      .expect(200);
+
+    expect(bodyOfGetWorkerRequest.id).toBe(bodyOfCreateWorkerRequest.id);
+    expect(bodyOfGetWorkerRequest.name).toBe(VALID_WORKER.name + '_2');
+    expect(bodyOfGetWorkerRequest.createdAt).toBeDefined();
+    expect(bodyOfGetWorkerRequest.updatedAt).toBeDefined();
   });
 });

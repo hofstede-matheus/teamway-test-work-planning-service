@@ -5,6 +5,7 @@ import { TypeOrmWorkersRepository } from '../data/typeorm/repositories/TypeOrmWo
 import { WorkerRepository } from '../domain/repositories/WorkerRepository';
 import { CreateWorkerUsecase } from '../interactors/usecases/CreateWorkerUsecase';
 import { FindWorkersUsecase } from '../interactors/usecases/FindWorkersUsecase';
+import { UpdateWorkerUsecase } from '../interactors/usecases/UpdateWorkerUsecase';
 import { WorkersController } from '../presentation/http/controllers/WorkersControllers';
 
 @Module({
@@ -22,6 +23,10 @@ import { WorkersController } from '../presentation/http/controllers/WorkersContr
     {
       provide: FindWorkersUsecase,
       useClass: FindWorkersUsecase,
+    },
+    {
+      provide: UpdateWorkerUsecase,
+      useClass: UpdateWorkerUsecase,
     },
   ],
   exports: [WorkerRepository],
