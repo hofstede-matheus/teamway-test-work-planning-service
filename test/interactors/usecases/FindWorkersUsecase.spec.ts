@@ -22,7 +22,7 @@ describe('FindWorkersUsecase', () => {
   });
 
   it('should NOT be able to find a single worker with invalid id', async () => {
-    const response = await useCase.execute({ workersId: 'INVALID_ID' });
+    const response = await useCase.execute({ workerId: 'INVALID_ID' });
 
     expect(response.isLeft()).toBeTruthy();
     expect(response.value).toBeInstanceOf(InvalidIdError);
@@ -43,7 +43,7 @@ describe('FindWorkersUsecase', () => {
       updatedAt: new Date(),
     });
 
-    const response = await useCase.execute({ workersId: VALID_WORKER.id });
+    const response = await useCase.execute({ workerId: VALID_WORKER.id });
 
     expect(response.isRight()).toBeTruthy();
   });

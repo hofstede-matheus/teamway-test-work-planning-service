@@ -1,12 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { WorkerEntity } from '../../domain/entities/Worker.entity';
 import { WorkerRepository } from '../../domain/repositories/WorkerRepository';
-import { Either } from '../../shared/helpers/either';
+import { Either, left, right } from '../../shared/helpers/either';
 import { DomainError } from '../../shared/helpers/errors';
 import { UseCase } from '../../shared/helpers/usecase';
+import { Validator } from '../../shared/helpers/validator';
 
 interface FindWorkersUsecaseParams {
-  workersId?: string;
+  workerId?: string;
   nameQuery?: string;
 }
 
@@ -16,10 +17,28 @@ export class FindWorkersUsecase implements UseCase {
     @Inject(WorkerRepository)
     private workerRepository: WorkerRepository,
   ) {}
-  execute({
-    workersId,
+  async execute({
+    workerId,
     nameQuery,
   }: FindWorkersUsecaseParams): Promise<Either<DomainError, WorkerEntity[]>> {
-    throw new Error('Method not implemented.');
+    if (workerId) {
+      const validation = Validator.validate({ id: [workerId] });
+      if (validation.isLeft()) return left(validation.value);
+
+      const worker = await this.workerRepository.findById(workerId);
+
+      return right([worker]);
+    } else if (nameQuery) {
+      const entityValidation = WorkerEntity.build(nameQuery);
+      if (entityValidation.isLeft()) return left(entityValidation.value);
+
+      const workers = await this.workerRepository.findByName(nameQuery);
+
+      return right(workers);
+    } else {
+      const workers = await this.workerRepository.findAll();
+
+      return right(workers);
+    }
   }
 }

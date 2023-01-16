@@ -14,7 +14,6 @@ export class CreateWorkerUsecase implements UseCase {
 
   async execute(name: string): Promise<Either<DomainError, WorkerEntity>> {
     const validation = WorkerEntity.build(name);
-
     if (validation.isLeft()) return left(validation.value);
 
     const worker = await this.workerRepository.create(name);
