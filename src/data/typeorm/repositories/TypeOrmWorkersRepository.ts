@@ -10,6 +10,10 @@ export class TypeOrmWorkersRepository implements WorkerRepository {
     private readonly workersRepository: Repository<Worker>,
   ) {}
 
+  remove(id: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
   async update(worker: Partial<WorkerEntity>): Promise<WorkerEntity> {
     await this.workersRepository.update(worker.id, worker);
 
