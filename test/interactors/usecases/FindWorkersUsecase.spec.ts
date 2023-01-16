@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { WorkerEntity } from '../../../src/domain/entities/Worker.entity';
 import {
   InvalidIdError,
   InvalidNameError,
@@ -46,6 +47,10 @@ describe('FindWorkersUsecase', () => {
     const response = await useCase.execute({ workerId: VALID_WORKER.id });
 
     expect(response.isRight()).toBeTruthy();
+    expect((response.value as WorkerEntity[])[0].id).toBe(VALID_WORKER.id);
+    expect((response.value as WorkerEntity[])[0].name).toBe(VALID_WORKER.name);
+    expect((response.value as WorkerEntity[])[0].createdAt).toBeDefined();
+    expect((response.value as WorkerEntity[])[0].updatedAt).toBeDefined();
   });
 
   it('should be able to find all workers', async () => {
@@ -53,6 +58,10 @@ describe('FindWorkersUsecase', () => {
     const response = await useCase.execute({});
 
     expect(response.isRight()).toBeTruthy();
+    expect((response.value as WorkerEntity[])[0].id).toBe(VALID_WORKER.id);
+    expect((response.value as WorkerEntity[])[0].name).toBe(VALID_WORKER.name);
+    expect((response.value as WorkerEntity[])[0].createdAt).toBeDefined();
+    expect((response.value as WorkerEntity[])[0].updatedAt).toBeDefined();
   });
 
   it('should be able to find workers by name', async () => {
@@ -62,5 +71,9 @@ describe('FindWorkersUsecase', () => {
     const response = await useCase.execute({ nameQuery: VALID_WORKER.name });
 
     expect(response.isRight()).toBeTruthy();
+    expect((response.value as WorkerEntity[])[0].id).toBe(VALID_WORKER.id);
+    expect((response.value as WorkerEntity[])[0].name).toBe(VALID_WORKER.name);
+    expect((response.value as WorkerEntity[])[0].createdAt).toBeDefined();
+    expect((response.value as WorkerEntity[])[0].updatedAt).toBeDefined();
   });
 });
