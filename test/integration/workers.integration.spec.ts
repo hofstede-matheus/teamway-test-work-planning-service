@@ -155,4 +155,26 @@ describe('workers', () => {
     expect(bodyOfGetWorkerRequest.createdAt).toBeDefined();
     expect(bodyOfGetWorkerRequest.updatedAt).toBeDefined();
   });
+
+  it('shoud be able to update a worker', async () => {
+    const { body: bodyOfCreateWorkerRequest } = await request(
+      app.getHttpServer(),
+    )
+      .post('/workers')
+      .send({
+        name: VALID_WORKER.name,
+      } as CreateWorkerRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .delete(`/workers/${bodyOfCreateWorkerRequest.id}`)
+      .set('Accept', 'application/json')
+      .expect(200);
+
+    await request(app.getHttpServer())
+      .get(`/workers/${bodyOfCreateWorkerRequest.id}`)
+      .set('Accept', 'application/json')
+      .expect(404);
+  });
 });
