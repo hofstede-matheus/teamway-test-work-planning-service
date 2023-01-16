@@ -18,6 +18,9 @@ export const ALL_REPOSITORIES_PROVIDERS: Provider[] = [
     provide: WorkerRepository,
     useValue: {
       create: jest.fn(),
+      findAll: jest.fn(),
+      findById: jest.fn(),
+      findByName: jest.fn(),
     } as WorkerRepository,
   },
 ];

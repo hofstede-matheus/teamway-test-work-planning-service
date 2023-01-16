@@ -18,7 +18,7 @@ describe('CreateWorkerUsecase', () => {
     useCase = module.get(CreateWorkerUsecase);
   });
 
-  it('should not create worker with invalid name', async () => {
+  it('should NOT create worker with invalid name', async () => {
     const response = await useCase.execute('a');
 
     expect(response.isLeft()).toBeTruthy();

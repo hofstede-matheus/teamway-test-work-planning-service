@@ -4,6 +4,7 @@ import { Worker } from '../data/typeorm/entities/Worker';
 import { TypeOrmWorkersRepository } from '../data/typeorm/repositories/TypeOrmWorkersRepository';
 import { WorkerRepository } from '../domain/repositories/WorkerRepository';
 import { CreateWorkerUsecase } from '../interactors/usecases/CreateWorkerUsecase';
+import { FindWorkersUsecase } from '../interactors/usecases/FindWorkersUsecase';
 import { WorkersController } from '../presentation/http/controllers/WorkersControllers';
 
 @Module({

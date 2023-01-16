@@ -10,6 +10,18 @@ export class TypeOrmWorkersRepository implements WorkerRepository {
     private readonly workersRepository: Repository<Worker>,
   ) {}
 
+  findByName(name: string): Promise<WorkerEntity[]> {
+    throw new Error('Method not implemented.');
+  }
+
+  findById(id: string): Promise<WorkerEntity> {
+    throw new Error('Method not implemented.');
+  }
+
+  findAll(): Promise<WorkerEntity[]> {
+    throw new Error('Method not implemented.');
+  }
+
   async create(name: string): Promise<WorkerEntity> {
     const worker = this.workersRepository.create({ name });
 
