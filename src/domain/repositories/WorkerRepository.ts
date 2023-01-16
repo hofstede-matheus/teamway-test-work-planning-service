@@ -1,4 +1,4 @@
-import { WorkerEntity } from '../entities/Worker.entnty';
+import { WorkerEntity } from '../entities/Worker.entity';
 
 export interface WorkerRepository {
   create(name: string): Promise<WorkerEntity>;
