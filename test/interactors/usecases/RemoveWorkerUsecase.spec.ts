@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { InvalidIdError } from '../../../src/domain/errors/domain-errors';
 import { WorkerRepository } from '../../../src/domain/repositories/WorkerRepository';
-import { RemoveWorkerUsecase } from '../../../src/interactors/usecases/RemoveWorkerUsecase';
+import { RemoveWorkerUsecase } from '../../../src/interactors/usecases/worker/RemoveWorkerUsecase';
 import { ALL_REPOSITORIES_PROVIDERS, VALID_WORKER } from '../../helpers';
 
 describe('RemoveWorkerUsecase', () => {

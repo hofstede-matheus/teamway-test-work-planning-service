@@ -21,7 +21,10 @@
     "test:unit": "jest --config ./test/jest-unit.json --runInBand",
     "test:integration": "jest --config ./test/jest-integration.json --runInBand --forceExit",
     "typeorm:cli": "ts-node ./node_modules/typeorm/cli.js",
-    "typeorm:cli:migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create"
+    "typeorm:cli:migration:create": "ts-node ./node_modules/typeorm/cli.js migration:create",
+    "migration:up": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d ormconfig.ts",
+    "migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert -d ormconfig.ts"
+
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

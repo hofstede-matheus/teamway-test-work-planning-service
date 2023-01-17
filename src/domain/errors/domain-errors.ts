@@ -5,3 +5,4 @@ export class InvalidNameError extends DomainError {}
 export class WorkerNotFoundError extends DomainError {}
 export class InvalidShiftSlotError extends DomainError {}
 export class WorkerHasShiftsOnDayError extends DomainError {}
+export class ShiftAlreadyTakenError extends DomainError {}

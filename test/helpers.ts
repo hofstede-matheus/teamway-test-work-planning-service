@@ -8,6 +8,8 @@ import { Worker } from '../src/data/typeorm/entities/Worker';
 import { ShiftRepository } from '../src/domain/repositories/ShiftRepository';
 import { ShiftEntity, ShiftSlot } from '../src/domain/entities/Shift.entity';
 import { WorkerEntity } from '../src/domain/entities/Worker.entity';
+import { ShiftsModule } from '../src/modules/shifts.module';
+import { Shift } from '../src/data/typeorm/entities/Shift';
 
 export const VALID_WORKER: WorkerEntity = {
   id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
@@ -16,10 +18,19 @@ export const VALID_WORKER: WorkerEntity = {
   updatedAt: new Date(),
 };
 
-export const VALID_SHIFT: ShiftEntity = {
+export const VALID_SHIFT_FIRST_SLOT: ShiftEntity = {
   id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
   worker: VALID_WORKER,
   shiftSlot: ShiftSlot.FIRST,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  workDay: new Date(),
+};
+
+export const VALID_SHIFT_SECOND_SLOT: ShiftEntity = {
+  id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
+  worker: VALID_WORKER,
+  shiftSlot: ShiftSlot.SECOND,
   createdAt: new Date(),
   updatedAt: new Date(),
   workDay: new Date(),
@@ -50,9 +61,9 @@ export const ALL_REPOSITORIES_PROVIDERS: Provider[] = [
   },
 ];
 
-export const ALL_MODULES = [WorkersModule];
+export const ALL_MODULES = [WorkersModule, ShiftsModule];
 
-export const ALL_TYPEORM_ENTITIES = [Worker];
+export const ALL_TYPEORM_ENTITIES = [Worker, Shift];
 
 export const TEST_CONFIG = [
   ...ALL_MODULES,

@@ -35,12 +35,22 @@ export class AttachWorkerToShiftUsecase implements UseCase {
       shiftEntity.value.workDay,
     );
 
-    const shiftAvailability = ShiftEntity.checkIfShiftSlotIsAvailableForWorker(
-      shiftEntity.value.worker,
+    const shiftIsAvaliableOnWorkDay = ShiftEntity.checkIfShiftsOverlap(
+      shiftEntity.value,
       shift,
     );
 
-    if (shiftAvailability.isLeft()) return left(shiftAvailability.value);
+    if (shiftIsAvaliableOnWorkDay.isLeft())
+      return left(shiftIsAvaliableOnWorkDay.value);
+
+    const shiftAvailabilityForWorker =
+      ShiftEntity.checkIfShiftSlotIsAvailableForWorker(
+        shiftEntity.value.worker,
+        shift,
+      );
+
+    if (shiftAvailabilityForWorker.isLeft())
+      return left(shiftAvailabilityForWorker.value);
 
     const shiftEntityFromDatabase = await this.shiftRepository.create(
       shiftEntity.value.shiftSlot,

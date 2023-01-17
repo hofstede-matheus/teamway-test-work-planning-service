@@ -2,9 +2,9 @@ import * as Joi from 'joi';
 import { Either, left, right } from '../../shared/helpers/either';
 import { DomainEntity, staticImplements } from '../../shared/helpers/entity';
 import { DomainError } from '../../shared/helpers/errors';
-import { Validator } from '../../shared/helpers/validator';
 import {
   InvalidShiftSlotError,
+  ShiftAlreadyTakenError,
   WorkerHasShiftsOnDayError,
 } from '../errors/domain-errors';
 import { WorkerEntity } from './Worker.entity';
@@ -19,11 +19,7 @@ export enum ShiftSlot {
 
 export interface WorkDay {
   readonly date: Date;
-  readonly shifts: {
-    readonly first?: ShiftEntity;
-    readonly second?: ShiftEntity;
-    readonly third?: ShiftEntity;
-  };
+  readonly shifts: ShiftEntity[];
 }
 
 export interface ShiftEntity {
@@ -50,11 +46,13 @@ export class ShiftEntity {
     end: Date,
     worker: WorkerEntity,
   ): Either<DomainError, ShiftEntity> {
-    const shiftSlot = this.getShiftSlot(start, end);
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const shiftSlot = this.getShiftSlot(startDate, endDate);
     const workDay = new Date(
-      start.getFullYear(),
-      start.getMonth(),
-      start.getDate(),
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate(),
     );
 
     const schema = Joi.object({
@@ -76,13 +74,7 @@ export class ShiftEntity {
     worker: WorkerEntity,
     workDay: WorkDay,
   ): Either<DomainError, void> {
-    const shifts = [
-      workDay.shifts.first,
-      workDay.shifts.second,
-      workDay.shifts.third,
-    ];
-
-    const workerShifts = shifts.filter(
+    const workerShifts = workDay.shifts.filter(
       (shift) => shift?.worker.id === worker.id,
     );
 
@@ -123,5 +115,18 @@ export class ShiftEntity {
           end: new Date(0, 0, 0, 24, 0, 0, 0),
         };
     }
+  }
+
+  public static checkIfShiftsOverlap(
+    shiftToBeCreated: ShiftEntity,
+    workDay: WorkDay,
+  ): Either<DomainError, void> {
+    const overlappingShifts = workDay.shifts.filter(
+      (shift) => shift?.shiftSlot === shiftToBeCreated.shiftSlot,
+    );
+
+    if (overlappingShifts.length > 0) return left(new ShiftAlreadyTakenError());
+
+    return right();
   }
 }

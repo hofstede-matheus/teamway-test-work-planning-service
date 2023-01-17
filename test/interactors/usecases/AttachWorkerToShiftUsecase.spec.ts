@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   InvalidIdError,
   InvalidShiftSlotError,
+  ShiftAlreadyTakenError,
   WorkerHasShiftsOnDayError,
   WorkerNotFoundError,
 } from '../../../src/domain/errors/domain-errors';
@@ -12,7 +13,8 @@ import {
   ALL_REPOSITORIES_PROVIDERS,
   END_DATE,
   START_DATE,
-  VALID_SHIFT,
+  VALID_SHIFT_FIRST_SLOT,
+  VALID_SHIFT_SECOND_SLOT,
   VALID_WORKER,
 } from '../../helpers';
 
@@ -82,9 +84,7 @@ describe('AttachWorkerToShiftUsecase', () => {
     jest.spyOn(workerRepository, 'findById').mockResolvedValue(VALID_WORKER);
     jest.spyOn(shiftRepository, 'findByWorkDay').mockResolvedValue({
       date: new Date(2023, 1, 17),
-      shifts: {
-        first: VALID_SHIFT,
-      },
+      shifts: [VALID_SHIFT_SECOND_SLOT],
     });
 
     const response = await useCase.execute(
@@ -97,14 +97,33 @@ describe('AttachWorkerToShiftUsecase', () => {
     expect(response.value).toBeInstanceOf(WorkerHasShiftsOnDayError);
   });
 
+  it('should NOT create shift when shift is already taken', async () => {
+    jest.spyOn(workerRepository, 'findById').mockResolvedValue(VALID_WORKER);
+    jest.spyOn(shiftRepository, 'findByWorkDay').mockResolvedValue({
+      date: new Date(2023, 1, 17),
+      shifts: [VALID_SHIFT_FIRST_SLOT],
+    });
+
+    const response = await useCase.execute(
+      VALID_WORKER.id,
+      START_DATE,
+      END_DATE,
+    );
+
+    expect(response.isLeft()).toBeTruthy();
+    expect(response.value).toBeInstanceOf(ShiftAlreadyTakenError);
+  });
+
   it('should create shift', async () => {
     jest.spyOn(workerRepository, 'findById').mockResolvedValue(VALID_WORKER);
     jest.spyOn(shiftRepository, 'findByWorkDay').mockResolvedValue({
       date: new Date(2023, 1, 17),
-      shifts: {},
+      shifts: [],
     });
 
-    jest.spyOn(shiftRepository, 'create').mockResolvedValue(VALID_SHIFT);
+    jest
+      .spyOn(shiftRepository, 'create')
+      .mockResolvedValue(VALID_SHIFT_FIRST_SLOT);
 
     const response = await useCase.execute(
       VALID_WORKER.id,
@@ -113,6 +132,6 @@ describe('AttachWorkerToShiftUsecase', () => {
     );
 
     expect(response.isRight()).toBeTruthy();
-    expect(response.value).toBe(VALID_SHIFT);
+    expect(response.value).toBe(VALID_SHIFT_FIRST_SLOT);
   });
 });

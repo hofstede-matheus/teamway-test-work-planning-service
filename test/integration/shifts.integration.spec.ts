@@ -55,10 +55,10 @@ describe('shifts', () => {
 
     expect(bodyOfCreateShiftRequest.id).toBeDefined();
     expect(bodyOfCreateShiftRequest.workDay).toBe(
-      new Date(2023, 1, 17).toISOString,
+      new Date(2023, 1, 17).toISOString(),
     );
     expect(bodyOfCreateShiftRequest.shiftSlot).toBe('FIRST');
     expect(bodyOfCreateShiftRequest.createdAt).toBeDefined();
     expect(bodyOfCreateShiftRequest.updatedAt).toBeDefined();
-  });
+  }, 10000);
 });

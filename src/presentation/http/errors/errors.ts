@@ -2,6 +2,9 @@ import { HttpException } from '@nestjs/common';
 import {
   InvalidIdError,
   InvalidNameError,
+  InvalidShiftSlotError,
+  ShiftAlreadyTakenError,
+  WorkerHasShiftsOnDayError,
   WorkerNotFoundError,
 } from '../../../domain/errors/domain-errors';
 import { DomainError } from '../../../shared/helpers/errors';
@@ -25,6 +28,15 @@ export function toPresentationError(error: DomainError): HttpException {
 
     case WorkerNotFoundError:
       return new PresentationException(error, 404);
+
+    case InvalidShiftSlotError:
+      return new PresentationException(error, 400);
+
+    case WorkerHasShiftsOnDayError:
+      return new PresentationException(error, 400);
+
+    case ShiftAlreadyTakenError:
+      return new PresentationException(error, 400);
 
     default:
       console.error('ERROR NOT MAPPED', error);

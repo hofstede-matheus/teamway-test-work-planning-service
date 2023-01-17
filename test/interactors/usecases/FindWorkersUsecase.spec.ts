@@ -5,7 +5,7 @@ import {
   InvalidNameError,
 } from '../../../src/domain/errors/domain-errors';
 import { WorkerRepository } from '../../../src/domain/repositories/WorkerRepository';
-import { FindWorkersUsecase } from '../../../src/interactors/usecases/FindWorkersUsecase';
+import { FindWorkersUsecase } from '../../../src/interactors/usecases/worker/FindWorkersUsecase';
 import { ALL_REPOSITORIES_PROVIDERS, VALID_WORKER } from '../../helpers';
 
 describe('FindWorkersUsecase', () => {
