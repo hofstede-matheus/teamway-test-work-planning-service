@@ -40,9 +40,13 @@ export class ShiftEntity {
   public static build(
     start: Date,
     end: Date,
-    workDay: Date,
   ): Either<DomainError, ShiftEntity> {
     const shiftSlot = this.getShiftSlot(start, end);
+    const workDay = new Date(
+      start.getFullYear(),
+      start.getMonth(),
+      start.getDate(),
+    );
 
     const schema = Joi.object({
       shiftSlot: Joi.string()
