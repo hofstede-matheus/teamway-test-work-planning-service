@@ -60,5 +60,40 @@ describe('shifts', () => {
     expect(bodyOfCreateShiftRequest.shiftSlot).toBe('FIRST');
     expect(bodyOfCreateShiftRequest.createdAt).toBeDefined();
     expect(bodyOfCreateShiftRequest.updatedAt).toBeDefined();
-  }, 10000);
+  });
+
+  it('shoud be able to get shifts from a day', async () => {
+    const { body: bodyOfCreateWorkerRequest } = await request(
+      app.getHttpServer(),
+    )
+      .post('/workers')
+      .send({
+        name: VALID_WORKER.name,
+      } as CreateWorkerRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .post('/shifts')
+      .send({
+        workerId: bodyOfCreateWorkerRequest.id,
+        shiftStart: START_DATE,
+        shiftEnd: END_DATE,
+      } as CreateShiftRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    const { body: bodyOfGetShiftsRequest } = await request(app.getHttpServer())
+      .get(`/shifts?date=${START_DATE.toISOString()}`)
+      .set('Accept', 'application/json')
+      .expect(200);
+
+    expect(bodyOfGetShiftsRequest.id).toBeDefined();
+    expect(bodyOfGetShiftsRequest.workDay).toBe(
+      new Date(2023, 1, 17).toISOString(),
+    );
+    expect(bodyOfGetShiftsRequest.shiftSlot).toBe('FIRST');
+    expect(bodyOfGetShiftsRequest.createdAt).toBeDefined();
+    expect(bodyOfGetShiftsRequest.updatedAt).toBeDefined();
+  });
 });
