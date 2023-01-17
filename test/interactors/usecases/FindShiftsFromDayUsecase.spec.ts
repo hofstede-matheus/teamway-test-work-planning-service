@@ -30,7 +30,7 @@ describe('FindShiftsFromDayUsecase', () => {
     const response = await useCase.execute(START_DATE);
 
     expect(response.isRight()).toBeTruthy();
-    expect(response.value).toBe({
+    expect(response.value).toStrictEqual({
       date: START_DATE,
       shifts: [VALID_SHIFT_FIRST_SLOT, VALID_SHIFT_SECOND_SLOT],
     });
