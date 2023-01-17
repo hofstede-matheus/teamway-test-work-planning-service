@@ -2,7 +2,7 @@ import { HttpException } from '@nestjs/common';
 import {
   InvalidIdError,
   InvalidNameError,
-  UserNotFoundError,
+  WorkerNotFoundError,
 } from '../../../domain/errors/domain-errors';
 import { DomainError } from '../../../shared/helpers/errors';
 
@@ -23,7 +23,7 @@ export function toPresentationError(error: DomainError): HttpException {
     case InvalidNameError:
       return new PresentationException(error, 400);
 
-    case UserNotFoundError:
+    case WorkerNotFoundError:
       return new PresentationException(error, 404);
 
     default:

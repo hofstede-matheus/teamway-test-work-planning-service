@@ -5,13 +5,28 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WorkersModule } from '../src/modules/workers.module';
 import { Worker } from '../src/data/typeorm/entities/Worker';
+import { ShiftRepository } from '../src/domain/repositories/ShiftRepository';
+import { ShiftEntity, ShiftSlot } from '../src/domain/entities/Shift.entity';
+import { WorkerEntity } from '../src/domain/entities/Worker.entity';
 
-export const VALID_WORKER = {
+export const VALID_WORKER: WorkerEntity = {
   id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
   name: 'John',
   createdAt: new Date(),
   updatedAt: new Date(),
 };
+
+export const VALID_SHIFT: ShiftEntity = {
+  id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
+  worker: VALID_WORKER,
+  shiftSlot: ShiftSlot.FIRST,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  workDay: new Date(),
+};
+
+export const START_DATE = new Date(2023, 1, 17, 0, 0, 0, 0);
+export const END_DATE = new Date(2023, 1, 17, 8, 0, 0, 0);
 
 export const ALL_REPOSITORIES_PROVIDERS: Provider[] = [
   {
@@ -24,6 +39,12 @@ export const ALL_REPOSITORIES_PROVIDERS: Provider[] = [
       update: jest.fn(),
       remove: jest.fn(),
     } as WorkerRepository,
+  },
+  {
+    provide: ShiftRepository,
+    useValue: {
+      create: jest.fn(),
+    },
   },
 ];
 

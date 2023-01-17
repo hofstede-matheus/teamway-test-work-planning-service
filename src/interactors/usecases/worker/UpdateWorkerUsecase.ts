@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { WorkerEntity } from '../../domain/entities/Worker.entity';
-import { WorkerRepository } from '../../domain/repositories/WorkerRepository';
-import { Either, left, right } from '../../shared/helpers/either';
-import { DomainError } from '../../shared/helpers/errors';
-import { UseCase } from '../../shared/helpers/usecase';
-import { Validator } from '../../shared/helpers/validator';
+import { WorkerEntity } from '../../../domain/entities/Worker.entity';
+import { WorkerRepository } from '../../../domain/repositories/WorkerRepository';
+import { Either, left, right } from '../../../shared/helpers/either';
+import { DomainError } from '../../../shared/helpers/errors';
+import { UseCase } from '../../../shared/helpers/usecase';
+import { Validator } from '../../../shared/helpers/validator';
 
 @Injectable()
 export class UpdateWorkerUsecase implements UseCase {

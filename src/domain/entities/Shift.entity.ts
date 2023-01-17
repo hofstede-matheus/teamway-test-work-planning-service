@@ -3,7 +3,10 @@ import { Either, left, right } from '../../shared/helpers/either';
 import { DomainEntity, staticImplements } from '../../shared/helpers/entity';
 import { DomainError } from '../../shared/helpers/errors';
 import { Validator } from '../../shared/helpers/validator';
-import { InvalidShiftSlotError } from '../errors/domain-errors';
+import {
+  InvalidShiftSlotError,
+  WorkerHasShiftsOnDayError,
+} from '../errors/domain-errors';
 import { WorkerEntity } from './Worker.entity';
 
 const MAXIMUM_SHIFTS_WORKER_CAN_HAVE_ON_A_DAY = 1;
@@ -17,9 +20,9 @@ export enum ShiftSlot {
 export interface WorkDay {
   readonly date: Date;
   readonly shifts: {
-    readonly first: ShiftEntity;
-    readonly second: ShiftEntity;
-    readonly third: ShiftEntity;
+    readonly first?: ShiftEntity;
+    readonly second?: ShiftEntity;
+    readonly third?: ShiftEntity;
   };
 }
 
@@ -84,18 +87,17 @@ export class ShiftEntity {
     );
 
     if (workerShifts.length >= MAXIMUM_SHIFTS_WORKER_CAN_HAVE_ON_A_DAY)
-      return false;
-
-    return true;
+      return left(new WorkerHasShiftsOnDayError());
   }
 
-  public static getShiftSlot(start: Date, end: Date): ShiftSlot {
+  public static getShiftSlot(start: Date, end: Date): ShiftSlot | null {
     const startHour = start.getHours();
     const endHour = end.getHours();
 
     if (startHour === 0 && endHour === 8) return ShiftSlot.FIRST;
     if (startHour === 8 && endHour === 16) return ShiftSlot.SECOND;
     if (startHour === 16 && endHour === 24) return ShiftSlot.THIRD;
+    else return null;
   }
 
   public static getDateFromShiftSlot(shiftSlot: ShiftSlot): {
