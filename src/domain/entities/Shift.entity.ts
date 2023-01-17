@@ -2,6 +2,7 @@ import * as Joi from 'joi';
 import { Either, left, right } from '../../shared/helpers/either';
 import { DomainEntity, staticImplements } from '../../shared/helpers/entity';
 import { DomainError } from '../../shared/helpers/errors';
+import { Validator } from '../../shared/helpers/validator';
 import { InvalidShiftSlotError } from '../errors/domain-errors';
 import { WorkerEntity } from './Worker.entity';
 
@@ -35,11 +36,16 @@ export interface ShiftEntity {
 
 @staticImplements<DomainEntity<ShiftEntity>>()
 export class ShiftEntity {
-  private constructor(readonly shiftSlot: ShiftSlot, readonly workDay: Date) {}
+  private constructor(
+    readonly shiftSlot: ShiftSlot,
+    readonly workDay: Date,
+    readonly worker: WorkerEntity,
+  ) {}
 
   public static build(
     start: Date,
     end: Date,
+    worker: WorkerEntity,
   ): Either<DomainError, ShiftEntity> {
     const shiftSlot = this.getShiftSlot(start, end);
     const workDay = new Date(
@@ -60,7 +66,7 @@ export class ShiftEntity {
     });
     if (validation.error) return left(validation.error);
 
-    return right(new ShiftEntity(shiftSlot, workDay));
+    return right(new ShiftEntity(shiftSlot, workDay, worker));
   }
 
   public static checkIfShiftSlotIsAvailableForWorker(
