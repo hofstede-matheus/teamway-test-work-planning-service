@@ -8,7 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CreateWorkerUsecase } from '../../../interactors/usecases/CreateWorkerUsecase';
+import { CreateWorkerUsecase } from '../../../interactors/usecases/worker/CreateWorkerUsecase';
 import { FindWorkersUsecase } from '../../../interactors/usecases/FindWorkersUsecase';
 import { RemoveWorkerUsecase } from '../../../interactors/usecases/RemoveWorkerUsecase';
 import { UpdateWorkerUsecase } from '../../../interactors/usecases/UpdateWorkerUsecase';

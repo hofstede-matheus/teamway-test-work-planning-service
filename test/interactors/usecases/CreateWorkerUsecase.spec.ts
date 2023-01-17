@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { WorkerEntity } from '../../../src/domain/entities/Worker.entity';
 import { InvalidNameError } from '../../../src/domain/errors/domain-errors';
 import { WorkerRepository } from '../../../src/domain/repositories/WorkerRepository';
-import { CreateWorkerUsecase } from '../../../src/interactors/usecases/CreateWorkerUsecase';
+import { CreateWorkerUsecase } from '../../../src/interactors/usecases/worker/CreateWorkerUsecase';
 import { ALL_REPOSITORIES_PROVIDERS, VALID_WORKER } from '../../helpers';
 
 describe('CreateWorkerUsecase', () => {

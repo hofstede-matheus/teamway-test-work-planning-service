@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Worker } from '../data/typeorm/entities/Worker';
 import { TypeOrmWorkersRepository } from '../data/typeorm/repositories/TypeOrmWorkersRepository';
 import { WorkerRepository } from '../domain/repositories/WorkerRepository';
-import { CreateWorkerUsecase } from '../interactors/usecases/CreateWorkerUsecase';
+import { CreateWorkerUsecase } from '../interactors/usecases/worker/CreateWorkerUsecase';
 import { FindWorkersUsecase } from '../interactors/usecases/FindWorkersUsecase';
 import { RemoveWorkerUsecase } from '../interactors/usecases/RemoveWorkerUsecase';
 import { UpdateWorkerUsecase } from '../interactors/usecases/UpdateWorkerUsecase';
