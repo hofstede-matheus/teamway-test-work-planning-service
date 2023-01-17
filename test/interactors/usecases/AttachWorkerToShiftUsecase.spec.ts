@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { WorkerEntity } from '../../../src/domain/entities/Worker.entity';
 import {
   InvalidIdError,
-  InvalidNameError,
   InvalidShiftSlotError,
   WorkerHasShiftsOnDayError,
   WorkerNotFoundError,

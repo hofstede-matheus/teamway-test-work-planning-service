@@ -1,15 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { WorkerRepository } from '../../domain/repositories/WorkerRepository';
-import { Either, left, right } from '../../shared/helpers/either';
-import { DomainError } from '../../shared/helpers/errors';
-import { UseCase } from '../../shared/helpers/usecase';
-import { Validator } from '../../shared/helpers/validator';
+import { WorkerRepository } from '../../../domain/repositories/WorkerRepository';
+import { Either, left, right } from '../../../shared/helpers/either';
+import { DomainError } from '../../../shared/helpers/errors';
+import { UseCase } from '../../../shared/helpers/usecase';
+import { Validator } from '../../../shared/helpers/validator';
 
 @Injectable()
 export class RemoveWorkerUsecase implements UseCase {
+  public get workerRepository(): WorkerRepository {
+    return this._workerRepository;
+  }
+  public set workerRepository(value: WorkerRepository) {
+    this._workerRepository = value;
+  }
   constructor(
     @Inject(WorkerRepository)
-    private workerRepository: WorkerRepository,
+    private _workerRepository: WorkerRepository,
   ) {}
 
   async execute(id: string): Promise<Either<DomainError, void>> {

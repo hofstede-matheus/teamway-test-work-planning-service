@@ -9,9 +9,9 @@ import {
   Query,
 } from '@nestjs/common';
 import { CreateWorkerUsecase } from '../../../interactors/usecases/worker/CreateWorkerUsecase';
-import { FindWorkersUsecase } from '../../../interactors/usecases/FindWorkersUsecase';
-import { RemoveWorkerUsecase } from '../../../interactors/usecases/RemoveWorkerUsecase';
-import { UpdateWorkerUsecase } from '../../../interactors/usecases/UpdateWorkerUsecase';
+import { FindWorkersUsecase } from '../../../interactors/usecases/worker/FindWorkersUsecase';
+import { RemoveWorkerUsecase } from '../../../interactors/usecases/worker/RemoveWorkerUsecase';
+import { UpdateWorkerUsecase } from '../../../interactors/usecases/worker/UpdateWorkerUsecase';
 import { CreateWorkerRequest, CreateWorkerResponse } from '../dto/CreateWorker';
 import {
   FindAllWorkersResponse,

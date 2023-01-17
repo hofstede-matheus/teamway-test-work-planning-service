@@ -4,9 +4,9 @@ import { Worker } from '../data/typeorm/entities/Worker';
 import { TypeOrmWorkersRepository } from '../data/typeorm/repositories/TypeOrmWorkersRepository';
 import { WorkerRepository } from '../domain/repositories/WorkerRepository';
 import { CreateWorkerUsecase } from '../interactors/usecases/worker/CreateWorkerUsecase';
-import { FindWorkersUsecase } from '../interactors/usecases/FindWorkersUsecase';
-import { RemoveWorkerUsecase } from '../interactors/usecases/RemoveWorkerUsecase';
-import { UpdateWorkerUsecase } from '../interactors/usecases/UpdateWorkerUsecase';
+import { FindWorkersUsecase } from '../interactors/usecases/worker/FindWorkersUsecase';
+import { RemoveWorkerUsecase } from '../interactors/usecases/worker/RemoveWorkerUsecase';
+import { UpdateWorkerUsecase } from '../interactors/usecases/worker/UpdateWorkerUsecase';
 import { WorkersController } from '../presentation/http/controllers/WorkersControllers';
 
 @Module({
