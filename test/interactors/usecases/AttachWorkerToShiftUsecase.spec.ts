@@ -40,6 +40,8 @@ describe('AttachWorkerToShiftUsecase', () => {
   });
 
   it('should NOT create shift with invalid start date', async () => {
+    jest.spyOn(workerRepository, 'findById').mockResolvedValue(VALID_WORKER);
+
     const response = await useCase.execute(
       VALID_WORKER.id,
       new Date(2023, 1, 17, 2, 0, 0, 0),
@@ -51,6 +53,8 @@ describe('AttachWorkerToShiftUsecase', () => {
   });
 
   it('should NOT create shift with invalid end date', async () => {
+    jest.spyOn(workerRepository, 'findById').mockResolvedValue(VALID_WORKER);
+
     const response = await useCase.execute(
       VALID_WORKER.id,
       START_DATE,
@@ -100,6 +104,8 @@ describe('AttachWorkerToShiftUsecase', () => {
       shifts: {},
     });
 
+    jest.spyOn(shiftRepository, 'create').mockResolvedValue(VALID_SHIFT);
+
     const response = await useCase.execute(
       VALID_WORKER.id,
       START_DATE,
@@ -107,6 +113,6 @@ describe('AttachWorkerToShiftUsecase', () => {
     );
 
     expect(response.isRight()).toBeTruthy();
-    expect(response.value).toBe(true);
+    expect(response.value).toBe(VALID_SHIFT);
   });
 });

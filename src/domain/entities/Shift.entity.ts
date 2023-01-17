@@ -75,7 +75,7 @@ export class ShiftEntity {
   public static checkIfShiftSlotIsAvailableForWorker(
     worker: WorkerEntity,
     workDay: WorkDay,
-  ) {
+  ): Either<DomainError, void> {
     const shifts = [
       workDay.shifts.first,
       workDay.shifts.second,
@@ -83,11 +83,13 @@ export class ShiftEntity {
     ];
 
     const workerShifts = shifts.filter(
-      (shift) => shift.worker.id === worker.id,
+      (shift) => shift?.worker.id === worker.id,
     );
 
     if (workerShifts.length >= MAXIMUM_SHIFTS_WORKER_CAN_HAVE_ON_A_DAY)
       return left(new WorkerHasShiftsOnDayError());
+
+    return right();
   }
 
   public static getShiftSlot(start: Date, end: Date): ShiftSlot | null {
