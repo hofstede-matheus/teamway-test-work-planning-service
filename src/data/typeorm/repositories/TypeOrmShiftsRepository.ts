@@ -15,8 +15,8 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
     private readonly shiftsRepository: Repository<Shift>,
   ) {}
 
-  remove(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async remove(id: string): Promise<void> {
+    await this.shiftsRepository.delete(id);
   }
 
   async create(

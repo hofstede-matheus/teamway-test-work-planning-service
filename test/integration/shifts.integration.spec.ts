@@ -200,7 +200,9 @@ describe('shifts', () => {
       .set('Accept', 'application/json')
       .expect(201);
 
-    await request(app.getHttpServer())
+    const { body: bodyOfCreateShiftRequest } = await request(
+      app.getHttpServer(),
+    )
       .post('/shifts')
       .send({
         workerId: bodyOfCreateWorkerRequest.id,
@@ -218,7 +220,7 @@ describe('shifts', () => {
     expect(bodyOfGetShiftsRequest.shifts.length).toBe(1);
 
     await request(app.getHttpServer())
-      .delete(`/shifts/${bodyOfCreateWorkerRequest.id}`)
+      .delete(`/shifts/${bodyOfCreateShiftRequest.id}`)
       .set('Accept', 'application/json')
       .expect(200);
 
