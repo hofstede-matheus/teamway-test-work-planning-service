@@ -16,7 +16,7 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
   ) {}
 
   async remove(id: string): Promise<void> {
-    await this.shiftsRepository.delete(id);
+    await this.shiftsRepository.softDelete(id);
   }
 
   async create(
@@ -55,7 +55,7 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
         workers.name as worker_name, workers.created_at as worker_created_at, workers.updated_at as worker_updated_at, workers.id as worker_id
       FROM shifts 
       INNER JOIN workers ON shifts.worker_id = workers.id
-      WHERE shifts.work_day = $1::timestamp::date
+      WHERE shifts.work_day = $1::timestamp::date AND shifts.deleted_at IS NULL
     `,
       [workDay],
     );
@@ -89,7 +89,7 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
         workers.name as worker_name, workers.created_at as worker_created_at, workers.updated_at as worker_updated_at, workers.id as worker_id
       FROM shifts 
       INNER JOIN workers ON shifts.worker_id = workers.id
-      WHERE shifts.work_day BETWEEN $1::timestamp::date AND $2::timestamp::date
+      WHERE shifts.work_day BETWEEN $1::timestamp::date AND $2::timestamp::date AND shifts.deleted_at IS NULL
     `,
       [startDay, endDay],
     );

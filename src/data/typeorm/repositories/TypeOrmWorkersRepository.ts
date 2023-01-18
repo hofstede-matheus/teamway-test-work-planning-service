@@ -11,7 +11,7 @@ export class TypeOrmWorkersRepository implements WorkerRepository {
   ) {}
 
   async remove(id: string): Promise<void> {
-    await this.workersRepository.delete(id);
+    await this.workersRepository.softDelete(id);
   }
 
   async update(worker: Partial<WorkerEntity>): Promise<WorkerEntity> {
