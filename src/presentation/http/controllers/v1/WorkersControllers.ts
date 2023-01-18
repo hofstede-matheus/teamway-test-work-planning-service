@@ -8,20 +8,27 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
-import { CreateWorkerUsecase } from '../../../interactors/usecases/worker/CreateWorkerUsecase';
-import { FindWorkersUsecase } from '../../../interactors/usecases/worker/FindWorkersUsecase';
-import { RemoveWorkerUsecase } from '../../../interactors/usecases/worker/RemoveWorkerUsecase';
-import { UpdateWorkerUsecase } from '../../../interactors/usecases/worker/UpdateWorkerUsecase';
-import { CreateWorkerRequest, CreateWorkerResponse } from '../dto/CreateWorker';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CreateWorkerUsecase } from '../../../../interactors/usecases/worker/CreateWorkerUsecase';
+import { FindWorkersUsecase } from '../../../../interactors/usecases/worker/FindWorkersUsecase';
+import { RemoveWorkerUsecase } from '../../../../interactors/usecases/worker/RemoveWorkerUsecase';
+import { UpdateWorkerUsecase } from '../../../../interactors/usecases/worker/UpdateWorkerUsecase';
 import {
-  FindAllWorkersResponse,
+  CreateWorkerResponse,
+  CreateWorkerRequest,
+} from '../../dto/CreateWorker';
+import {
   FindWorkerByIdResponse,
-} from '../dto/FindWorkers';
-import { UpdateWorkerRequest, UpdateWorkerResponse } from '../dto/UpdateWorker';
-import { toPresentationError } from '../errors/errors';
+  FindAllWorkersResponse,
+} from '../../dto/FindWorkers';
+import {
+  UpdateWorkerResponse,
+  UpdateWorkerRequest,
+} from '../../dto/UpdateWorker';
+import { toPresentationError } from '../../errors/errors';
 
-@Controller('workers')
+@Controller({ path: 'workers', version: '1' })
+@ApiTags('/v1/workers')
 export class WorkersController {
   constructor(
     private readonly createWorkerUsecase: CreateWorkerUsecase,

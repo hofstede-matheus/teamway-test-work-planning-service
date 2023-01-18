@@ -7,11 +7,16 @@ import {
   DOCUMENT_DESCRIPTION,
   DOCUMENT_TITLE,
 } from './presentation/http/docs/swagger';
+import { VersioningType } from '@nestjs/common';
 
 const API_PORT = process.env.API_PORT ?? 3000;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
 
   SwaggerModule.setup(
     DOCS_PATH,

@@ -7,19 +7,20 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { AttachWorkerToShiftUsecase } from '../../../interactors/usecases/shift/AttachWorkerToShiftUsecase';
-import { FindShiftsByDateRangeUsecase } from '../../../interactors/usecases/shift/FindShiftsByDateRangeUsecase';
-import { FindShiftsFromDayUsecase } from '../../../interactors/usecases/shift/FindShiftsFromDayUsecase';
-import { RemoveShiftUsecase } from '../../../interactors/usecases/shift/RemoveShiftUsecase';
-import { CreateShiftRequest, CreateShiftResponse } from '../dto/CreateShift';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AttachWorkerToShiftUsecase } from '../../../../interactors/usecases/shift/AttachWorkerToShiftUsecase';
+import { FindShiftsByDateRangeUsecase } from '../../../../interactors/usecases/shift/FindShiftsByDateRangeUsecase';
+import { FindShiftsFromDayUsecase } from '../../../../interactors/usecases/shift/FindShiftsFromDayUsecase';
+import { RemoveShiftUsecase } from '../../../../interactors/usecases/shift/RemoveShiftUsecase';
+import { CreateShiftRequest, CreateShiftResponse } from '../../dto/CreateShift';
 import {
   FindShiftByDateRangeResponse,
   FindShiftByDateResponse,
-} from '../dto/FindShifts';
-import { toPresentationError } from '../errors/errors';
+} from '../../dto/FindShifts';
+import { toPresentationError } from '../../errors/errors';
 
-@Controller('shifts')
+@Controller({ path: 'shifts', version: '1' })
+@ApiTags('/v1/shifts')
 export class ShiftsControllers {
   constructor(
     private readonly attachWorkerToShiftUsecase: AttachWorkerToShiftUsecase,

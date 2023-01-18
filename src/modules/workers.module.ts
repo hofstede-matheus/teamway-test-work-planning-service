@@ -7,7 +7,7 @@ import { CreateWorkerUsecase } from '../interactors/usecases/worker/CreateWorker
 import { FindWorkersUsecase } from '../interactors/usecases/worker/FindWorkersUsecase';
 import { RemoveWorkerUsecase } from '../interactors/usecases/worker/RemoveWorkerUsecase';
 import { UpdateWorkerUsecase } from '../interactors/usecases/worker/UpdateWorkerUsecase';
-import { WorkersController } from '../presentation/http/controllers/WorkersControllers';
+import { WorkersController } from '../presentation/http/controllers/v1/WorkersControllers';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Worker])],

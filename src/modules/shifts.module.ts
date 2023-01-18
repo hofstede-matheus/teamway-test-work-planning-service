@@ -7,7 +7,7 @@ import { AttachWorkerToShiftUsecase } from '../interactors/usecases/shift/Attach
 import { FindShiftsByDateRangeUsecase } from '../interactors/usecases/shift/FindShiftsByDateRangeUsecase';
 import { FindShiftsFromDayUsecase } from '../interactors/usecases/shift/FindShiftsFromDayUsecase';
 import { RemoveShiftUsecase } from '../interactors/usecases/shift/RemoveShiftUsecase';
-import { ShiftsControllers } from '../presentation/http/controllers/ShiftsControllers';
+import { ShiftsControllers } from '../presentation/http/controllers/v1/ShiftsControllers';
 import { WorkersModule } from './workers.module';
 
 @Module({
