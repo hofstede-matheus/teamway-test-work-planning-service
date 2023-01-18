@@ -9,6 +9,7 @@ export interface ShiftRepository {
   ): Promise<ShiftEntity>;
   findByWorkDay(workDay: Date): Promise<WorkDay>;
   findByWorkDays(startDay: Date, endDay: Date): Promise<WorkDay[]>;
+  remove(id: string): Promise<void>;
 }
 
 export const ShiftRepository = Symbol('ShiftRepository');

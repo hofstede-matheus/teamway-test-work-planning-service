@@ -7,15 +7,9 @@ import { Validator } from '../../../shared/helpers/validator';
 
 @Injectable()
 export class RemoveWorkerUsecase implements UseCase {
-  public get workerRepository(): WorkerRepository {
-    return this._workerRepository;
-  }
-  public set workerRepository(value: WorkerRepository) {
-    this._workerRepository = value;
-  }
   constructor(
     @Inject(WorkerRepository)
-    private _workerRepository: WorkerRepository,
+    private workerRepository: WorkerRepository,
   ) {}
 
   async execute(id: string): Promise<Either<DomainError, void>> {

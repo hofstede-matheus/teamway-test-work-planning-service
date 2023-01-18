@@ -57,6 +57,7 @@ export const ALL_REPOSITORIES_PROVIDERS: Provider[] = [
       create: jest.fn(),
       findByWorkDay: jest.fn(),
       findByWorkDays: jest.fn(),
+      remove: jest.fn(),
     } as ShiftRepository,
   },
 ];
