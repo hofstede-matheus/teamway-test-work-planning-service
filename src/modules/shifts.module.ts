@@ -4,6 +4,7 @@ import { Shift } from '../data/typeorm/entities/Shift';
 import { TypeOrmShiftsRepository } from '../data/typeorm/repositories/TypeOrmShiftsRepository';
 import { ShiftRepository } from '../domain/repositories/ShiftRepository';
 import { AttachWorkerToShiftUsecase } from '../interactors/usecases/shift/AttachWorkerToShiftUsecase';
+import { FindShiftsByDateRangeUsecase } from '../interactors/usecases/shift/FindShiftsByDateRangeUsecase';
 import { FindShiftsFromDayUsecase } from '../interactors/usecases/shift/FindShiftsFromDayUsecase';
 import { ShiftsControllers } from '../presentation/http/controllers/ShiftsControllers';
 import { WorkersModule } from './workers.module';
@@ -23,6 +24,10 @@ import { WorkersModule } from './workers.module';
     {
       provide: FindShiftsFromDayUsecase,
       useClass: FindShiftsFromDayUsecase,
+    },
+    {
+      provide: FindShiftsByDateRangeUsecase,
+      useClass: FindShiftsByDateRangeUsecase,
     },
   ],
   exports: [ShiftRepository],

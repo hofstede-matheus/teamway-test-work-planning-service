@@ -43,9 +43,6 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
   }
 
   async findByWorkDay(workDay: Date): Promise<WorkDay> {
-    // await this.shiftsRepository
-    //   .query(`insert into "shifts" ("created_at", "id", "shift_slot", "updated_at", "work_day", "worker_id") values ('2023-01-17 21:14:21.729914', '741c151f-5a42-490d-b8aa-9e9858538a0b', 'FIRST', '2023-01-17 21:14:21.729914', '2023-02-17T03:00:00.000Z'::timestamp::date, '1314a722-321f-4668-9d92-90ca78e38707');
-    // `);
     const workDayInDatabase = await this.shiftsRepository.query(
       `
       SELECT 
@@ -79,7 +76,47 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
 
     return mappedWorkDay;
   }
-  findByWorkDays(startDay: Date, endDay: Date): Promise<WorkDay[]> {
-    throw new Error('Method not implemented.');
+  async findByWorkDays(startDay: Date, endDay: Date): Promise<WorkDay[]> {
+    const workDayInDatabase = await this.shiftsRepository.query(
+      `
+      SELECT 
+        shifts.id, shifts.work_day, shifts.shift_slot, shifts.worker_id, shifts.created_at, shifts.updated_at, 
+        workers.name as worker_name, workers.created_at as worker_created_at, workers.updated_at as worker_updated_at, workers.id as worker_id
+      FROM shifts 
+      INNER JOIN workers ON shifts.worker_id = workers.id
+      WHERE shifts.work_day BETWEEN $1::timestamp::date AND $2::timestamp::date
+    `,
+      [startDay, endDay],
+    );
+    const workDays = workDayInDatabase.reduce((acc, shift) => {
+      const day = shift.work_day.toISOString().split('T')[0];
+      if (!acc[day]) {
+        acc[day] = {
+          date: shift.work_day,
+          shifts: [],
+        };
+      }
+      acc[day].shifts.push({
+        id: shift.id,
+        workDay: shift.work_day,
+        shiftSlot: shift.shift_slot,
+        worker: {
+          id: shift.worker_id,
+          name: shift.worker_name,
+          createdAt: shift.worker_created_at,
+          updatedAt: shift.worker_updated_at,
+        },
+        createdAt: shift.created_at,
+        updatedAt: shift.updated_at,
+      } as ShiftEntity);
+      return acc;
+    }, {} as { [key: string]: WorkDay });
+
+    const workDaysArray: WorkDay[] = Object.values(workDays);
+    const sortedWorkDays = workDaysArray.sort((a, b) => {
+      return a.date.getTime() - b.date.getTime();
+    });
+
+    return sortedWorkDays;
   }
 }

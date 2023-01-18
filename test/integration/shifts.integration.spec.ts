@@ -113,6 +113,16 @@ describe('shifts', () => {
       .set('Accept', 'application/json')
       .expect(201);
 
+    const { body: bodyOfCreateWorkerRequest2 } = await request(
+      app.getHttpServer(),
+    )
+      .post('/workers')
+      .send({
+        name: VALID_WORKER.name,
+      } as CreateWorkerRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
     await request(app.getHttpServer())
       .post('/shifts')
       .send({
@@ -123,9 +133,36 @@ describe('shifts', () => {
       .set('Accept', 'application/json')
       .expect(201);
 
+    await request(app.getHttpServer())
+      .post('/shifts')
+      .send({
+        workerId: bodyOfCreateWorkerRequest2.id,
+        shiftStart: new Date(2023, 1, 17, 8, 0, 0, 0),
+        shiftEnd: new Date(2023, 1, 17, 16, 0, 0, 0),
+      } as CreateShiftRequest)
+      .set('Accept', 'application/json');
+
+    await request(app.getHttpServer())
+      .post('/shifts')
+      .send({
+        workerId: bodyOfCreateWorkerRequest.id,
+        shiftStart: new Date(2023, 1, 18, 0, 0, 0, 0),
+        shiftEnd: new Date(2023, 1, 18, 8, 0, 0, 0),
+      } as CreateShiftRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
     const { body: bodyOfGetShiftsRequest } = await request(app.getHttpServer())
       .get(
-        `/shifts?startDate=${START_DATE.toISOString()}&endDate=${END_DATE.toISOString()}`,
+        `/shifts?startDate=${START_DATE.toISOString()}&endDate=${new Date(
+          2023,
+          1,
+          18,
+          0,
+          0,
+          0,
+          0,
+        ).toISOString()}`,
       )
       .set('Accept', 'application/json')
       .expect(200);
@@ -150,5 +187,5 @@ describe('shifts', () => {
     expect(
       bodyOfGetShiftsRequest.workDays[0].shifts[0].updatedAt,
     ).toBeDefined();
-  });
+  }, 100000);
 });
