@@ -1,13 +1,5 @@
-export class FindWorkerByIdResponse {
-  id: string;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { Worker } from './_shared';
 
-export class FindAllWorkersResponse {
-  id: string;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export class FindWorkerByIdResponse extends Worker {}
+
+export class FindAllWorkersResponse extends Worker {}

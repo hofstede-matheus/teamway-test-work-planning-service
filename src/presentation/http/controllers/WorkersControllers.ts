@@ -8,6 +8,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { CreateWorkerUsecase } from '../../../interactors/usecases/worker/CreateWorkerUsecase';
 import { FindWorkersUsecase } from '../../../interactors/usecases/worker/FindWorkersUsecase';
 import { RemoveWorkerUsecase } from '../../../interactors/usecases/worker/RemoveWorkerUsecase';
@@ -30,6 +31,7 @@ export class WorkersController {
   ) {}
 
   @Post()
+  @ApiResponse({ type: CreateWorkerResponse })
   async createWorker(
     @Body() body: CreateWorkerRequest,
   ): Promise<CreateWorkerResponse> {
@@ -46,6 +48,7 @@ export class WorkersController {
   }
 
   @Get(':id')
+  @ApiResponse({ type: FindWorkerByIdResponse })
   async getById(@Param('id') id: string): Promise<FindWorkerByIdResponse> {
     const result = await this.findWorkersUsecase.execute({ workerId: id });
 
@@ -60,6 +63,7 @@ export class WorkersController {
   }
 
   @Get()
+  @ApiResponse({ type: FindAllWorkersResponse, isArray: true })
   async getAll(@Query('name') name: string): Promise<FindAllWorkersResponse[]> {
     const result = await this.findWorkersUsecase.execute({ nameQuery: name });
 
@@ -76,6 +80,7 @@ export class WorkersController {
   }
 
   @Patch(':id')
+  @ApiResponse({ type: UpdateWorkerResponse })
   async update(
     @Param('id') id: string,
     @Body() body: UpdateWorkerRequest,

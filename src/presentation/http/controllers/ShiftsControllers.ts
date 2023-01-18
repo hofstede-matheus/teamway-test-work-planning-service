@@ -7,6 +7,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { AttachWorkerToShiftUsecase } from '../../../interactors/usecases/shift/AttachWorkerToShiftUsecase';
 import { FindShiftsByDateRangeUsecase } from '../../../interactors/usecases/shift/FindShiftsByDateRangeUsecase';
 import { FindShiftsFromDayUsecase } from '../../../interactors/usecases/shift/FindShiftsFromDayUsecase';
@@ -28,6 +29,7 @@ export class ShiftsControllers {
   ) {}
 
   @Post()
+  @ApiResponse({ type: CreateShiftResponse })
   async createShift(
     @Body() body: CreateShiftRequest,
   ): Promise<CreateShiftResponse> {
@@ -47,7 +49,12 @@ export class ShiftsControllers {
       updatedAt: result.value.updatedAt,
     };
   }
+
   @Get()
+  @ApiResponse({ type: FindShiftByDateResponse })
+  @ApiQuery({ name: 'date', type: 'string', required: false })
+  @ApiQuery({ name: 'startDate', type: 'string', required: false })
+  @ApiQuery({ name: 'endDate', type: 'string', required: false })
   async getShifts(
     @Query('date') date: string,
     @Query('startDate') startDate: string,

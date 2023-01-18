@@ -1,10 +1,9 @@
-import { Shift } from './_shared';
+import { ApiProperty } from '@nestjs/swagger';
+import { WorkDay } from './_shared';
 
-export class FindShiftByDateResponse {
-  date: Date;
-  shifts: Shift[];
-}
+export class FindShiftByDateResponse extends WorkDay {}
 
 export class FindShiftByDateRangeResponse {
-  workDays: FindShiftByDateResponse[];
+  @ApiProperty({ type: WorkDay })
+  workDays: WorkDay[];
 }

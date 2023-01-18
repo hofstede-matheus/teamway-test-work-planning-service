@@ -1,4 +1,4 @@
-import { INestApplication, Provider, VersioningType } from '@nestjs/common';
+import { INestApplication, Provider } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { WorkerRepository } from '../src/domain/repositories/WorkerRepository';
 import { ConfigModule } from '@nestjs/config';
