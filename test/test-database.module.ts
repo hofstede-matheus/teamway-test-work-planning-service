@@ -22,7 +22,6 @@ export const databaseProviders: Array<
       return dataSource;
     },
   }),
-  TypeOrmModule.forFeature([Shift, Worker]),
 ];
 
 @Module({
