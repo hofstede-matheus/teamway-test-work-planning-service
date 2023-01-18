@@ -14,6 +14,11 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
     @InjectRepository(Shift)
     private readonly shiftsRepository: Repository<Shift>,
   ) {}
+
+  remove(id: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
   async create(
     shiftSlot: ShiftSlot,
     workDay: Date,
