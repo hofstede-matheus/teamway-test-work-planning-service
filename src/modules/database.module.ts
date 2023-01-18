@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Shift } from '../data/typeorm/entities/Shift';
 import { Worker } from '../data/typeorm/entities/Worker';
 
-export const databaseProviders: Array<
+const databaseProviders: Array<
   Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference
 > = [
   TypeOrmModule.forRootAsync({
