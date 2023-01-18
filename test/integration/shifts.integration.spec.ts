@@ -13,9 +13,9 @@ import { CreateShiftRequest } from '../../src/presentation/http/dto/CreateShift'
 describe('shifts', () => {
   let app: INestApplication;
 
-  connectionSource.initialize();
-
   beforeAll(async () => {
+    connectionSource.initialize();
+
     app = await generateTestingApp();
     await app.init();
   });

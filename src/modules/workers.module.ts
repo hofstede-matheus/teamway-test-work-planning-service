@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Worker } from '../data/typeorm/entities/Worker';
 import { TypeOrmWorkersRepository } from '../data/typeorm/repositories/TypeOrmWorkersRepository';
 import { WorkerRepository } from '../domain/repositories/WorkerRepository';
 import { CreateWorkerUsecase } from '../interactors/usecases/worker/CreateWorkerUsecase';
@@ -6,10 +8,9 @@ import { FindWorkersUsecase } from '../interactors/usecases/worker/FindWorkersUs
 import { RemoveWorkerUsecase } from '../interactors/usecases/worker/RemoveWorkerUsecase';
 import { UpdateWorkerUsecase } from '../interactors/usecases/worker/UpdateWorkerUsecase';
 import { WorkersController } from '../presentation/http/controllers/v1/WorkersControllers';
-import { DatabaseModule } from './database.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [TypeOrmModule.forFeature([Worker])],
   controllers: [WorkersController],
   providers: [
     {

@@ -1,15 +1,19 @@
 import { DynamicModule, ForwardReference, Module, Type } from '@nestjs/common';
-import { connectionSource } from '../../ormconfig';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Shift } from '../data/typeorm/entities/Shift';
-import { Worker } from '../data/typeorm/entities/Worker';
+import { connectionSource } from '../ormconfig-test';
+import { Shift } from '../src/data/typeorm/entities/Shift';
+import { Worker } from '../src/data/typeorm/entities/Worker';
 
 export const databaseProviders: Array<
   Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference
 > = [
   TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
+    imports: [
+      ConfigModule.forRoot({
+        envFilePath: '.env.test',
+      }),
+    ],
     useFactory: async () => {
       return {};
     },
@@ -18,10 +22,11 @@ export const databaseProviders: Array<
       return dataSource;
     },
   }),
+  TypeOrmModule.forFeature([Shift, Worker]),
 ];
 
 @Module({
   imports: [...databaseProviders],
   exports: [...databaseProviders],
 })
-export class DatabaseModule {}
+export class TestDatabaseModule {}

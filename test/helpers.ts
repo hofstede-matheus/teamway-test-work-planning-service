@@ -10,6 +10,7 @@ import { ShiftEntity, ShiftSlot } from '../src/domain/entities/Shift.entity';
 import { WorkerEntity } from '../src/domain/entities/Worker.entity';
 import { ShiftsModule } from '../src/modules/shifts.module';
 import { Shift } from '../src/data/typeorm/entities/Shift';
+import { TestDatabaseModule } from './test-database.module';
 
 export const VALID_WORKER: WorkerEntity = {
   id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
@@ -62,12 +63,15 @@ export const ALL_REPOSITORIES_PROVIDERS: Provider[] = [
   },
 ];
 
-export const ALL_MODULES = [WorkersModule, ShiftsModule];
+export const ALL_MODULES = [
+  // TestDatabaseModule,
+  WorkersModule,
+  ShiftsModule,
+];
 
 export const ALL_TYPEORM_ENTITIES = [Worker, Shift];
 
 export const TEST_CONFIG = [
-  ...ALL_MODULES,
   ConfigModule.forRoot({
     envFilePath: '.env.test',
   }),
@@ -83,6 +87,7 @@ export const TEST_CONFIG = [
     entities: ALL_TYPEORM_ENTITIES,
     logging: process.env.DATABASE_LOGGING === 'true',
   }),
+  ...ALL_MODULES,
 ];
 
 export async function generateTestingApp(): Promise<INestApplication> {

@@ -7,9 +7,9 @@ import { CreateWorkerRequest } from '../../src/presentation/http/dto/CreateWorke
 describe('workers', () => {
   let app: INestApplication;
 
-  connectionSource.initialize();
-
   beforeAll(async () => {
+    connectionSource.initialize();
+
     app = await generateTestingApp();
     await app.init();
   });
