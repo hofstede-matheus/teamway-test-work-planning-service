@@ -88,12 +88,17 @@ describe('shifts', () => {
       .set('Accept', 'application/json')
       .expect(200);
 
-    expect(bodyOfGetShiftsRequest.id).toBeDefined();
-    expect(bodyOfGetShiftsRequest.workDay).toBe(
+    expect(bodyOfGetShiftsRequest.date).toBe(
       new Date(2023, 1, 17).toISOString(),
     );
-    expect(bodyOfGetShiftsRequest.shiftSlot).toBe('FIRST');
-    expect(bodyOfGetShiftsRequest.createdAt).toBeDefined();
-    expect(bodyOfGetShiftsRequest.updatedAt).toBeDefined();
-  });
+    expect(bodyOfGetShiftsRequest.shifts[0].id).toBeDefined();
+    expect(bodyOfGetShiftsRequest.shifts[0].workDay).toBe(
+      new Date(2023, 1, 17).toISOString(),
+    );
+    expect(bodyOfGetShiftsRequest.shifts[0].shiftSlot).toBe('FIRST');
+    expect(bodyOfGetShiftsRequest.shifts[0].worker.id).toBeDefined();
+
+    expect(bodyOfGetShiftsRequest.shifts[0].createdAt).toBeDefined();
+    expect(bodyOfGetShiftsRequest.shifts[0].updatedAt).toBeDefined();
+  }, 10000);
 });
