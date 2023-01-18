@@ -1,4 +1,4 @@
-import { INestApplication, Provider } from '@nestjs/common';
+import { INestApplication, Provider, VersioningType } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { WorkerRepository } from '../src/domain/repositories/WorkerRepository';
 import { ConfigModule } from '@nestjs/config';
@@ -92,5 +92,8 @@ export async function generateTestingApp(): Promise<INestApplication> {
   }).compile();
 
   const app = module.createNestApplication();
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
   return app;
 }

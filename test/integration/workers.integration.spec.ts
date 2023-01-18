@@ -27,7 +27,7 @@ describe('workers', () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -42,7 +42,7 @@ describe('workers', () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -50,7 +50,7 @@ describe('workers', () => {
       .expect(201);
 
     const { body: bodyOfGetWorkerRequest } = await request(app.getHttpServer())
-      .get(`/workers/${bodyOfCreateWorkerRequest.id}`)
+      .get(`/v1/workers/${bodyOfCreateWorkerRequest.id}`)
       .set('Accept', 'application/json')
       .expect(200);
 
@@ -64,7 +64,7 @@ describe('workers', () => {
     const { body: bodyOfCreateWorkerRequest1 } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -74,7 +74,7 @@ describe('workers', () => {
     const { body: bodyOfCreateWorkerRequest2 } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name + '_2',
       } as CreateWorkerRequest)
@@ -82,7 +82,7 @@ describe('workers', () => {
       .expect(201);
 
     const { body: bodyOfGetWorkerRequest } = await request(app.getHttpServer())
-      .get(`/workers`)
+      .get(`/v1/workers`)
       .set('Accept', 'application/json')
       .expect(200);
 
@@ -101,7 +101,7 @@ describe('workers', () => {
     const { body: bodyOfCreateWorkerRequest1 } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -109,7 +109,7 @@ describe('workers', () => {
       .expect(201);
 
     const { body: bodyOfGetWorkerRequest } = await request(app.getHttpServer())
-      .get(`/workers?name=${VALID_WORKER.name}`)
+      .get(`/v1/workers?name=${VALID_WORKER.name}`)
       .set('Accept', 'application/json')
       .expect(200);
 
@@ -123,7 +123,7 @@ describe('workers', () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -133,7 +133,7 @@ describe('workers', () => {
     const { body: bodyOfUpdateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .patch(`/workers/${bodyOfCreateWorkerRequest.id}`)
+      .patch(`/v1/workers/${bodyOfCreateWorkerRequest.id}`)
       .send({
         name: VALID_WORKER.name + '_2',
       } as CreateWorkerRequest)
@@ -146,7 +146,7 @@ describe('workers', () => {
     expect(bodyOfUpdateWorkerRequest.updatedAt).toBeDefined();
 
     const { body: bodyOfGetWorkerRequest } = await request(app.getHttpServer())
-      .get(`/workers/${bodyOfCreateWorkerRequest.id}`)
+      .get(`/v1/workers/${bodyOfCreateWorkerRequest.id}`)
       .set('Accept', 'application/json')
       .expect(200);
 
@@ -160,7 +160,7 @@ describe('workers', () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -168,12 +168,12 @@ describe('workers', () => {
       .expect(201);
 
     await request(app.getHttpServer())
-      .delete(`/workers/${bodyOfCreateWorkerRequest.id}`)
+      .delete(`/v1/workers/${bodyOfCreateWorkerRequest.id}`)
       .set('Accept', 'application/json')
       .expect(200);
 
     await request(app.getHttpServer())
-      .get(`/workers/${bodyOfCreateWorkerRequest.id}`)
+      .get(`/v1/workers/${bodyOfCreateWorkerRequest.id}`)
       .set('Accept', 'application/json')
       .expect(404);
   });

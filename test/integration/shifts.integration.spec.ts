@@ -34,7 +34,7 @@ describe('shifts', () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -44,7 +44,7 @@ describe('shifts', () => {
     const { body: bodyOfCreateShiftRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/shifts')
+      .post('/v1/shifts')
       .send({
         workerId: bodyOfCreateWorkerRequest.id,
         shiftStart: START_DATE,
@@ -66,7 +66,7 @@ describe('shifts', () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -74,7 +74,7 @@ describe('shifts', () => {
       .expect(201);
 
     await request(app.getHttpServer())
-      .post('/shifts')
+      .post('/v1/shifts')
       .send({
         workerId: bodyOfCreateWorkerRequest.id,
         shiftStart: START_DATE,
@@ -84,7 +84,7 @@ describe('shifts', () => {
       .expect(201);
 
     const { body: bodyOfGetShiftsRequest } = await request(app.getHttpServer())
-      .get(`/shifts?date=${START_DATE.toISOString()}`)
+      .get(`/v1/shifts?date=${START_DATE.toISOString()}`)
       .set('Accept', 'application/json')
       .expect(200);
 
@@ -106,7 +106,7 @@ describe('shifts', () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -116,7 +116,7 @@ describe('shifts', () => {
     const { body: bodyOfCreateWorkerRequest2 } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -124,7 +124,7 @@ describe('shifts', () => {
       .expect(201);
 
     await request(app.getHttpServer())
-      .post('/shifts')
+      .post('/v1/shifts')
       .send({
         workerId: bodyOfCreateWorkerRequest.id,
         shiftStart: START_DATE,
@@ -134,7 +134,7 @@ describe('shifts', () => {
       .expect(201);
 
     await request(app.getHttpServer())
-      .post('/shifts')
+      .post('/v1/shifts')
       .send({
         workerId: bodyOfCreateWorkerRequest2.id,
         shiftStart: new Date(2023, 1, 17, 8, 0, 0, 0),
@@ -143,7 +143,7 @@ describe('shifts', () => {
       .set('Accept', 'application/json');
 
     await request(app.getHttpServer())
-      .post('/shifts')
+      .post('/v1/shifts')
       .send({
         workerId: bodyOfCreateWorkerRequest.id,
         shiftStart: new Date(2023, 1, 18, 0, 0, 0, 0),
@@ -154,7 +154,7 @@ describe('shifts', () => {
 
     const { body: bodyOfGetShiftsRequest } = await request(app.getHttpServer())
       .get(
-        `/shifts?startDate=${START_DATE.toISOString()}&endDate=${new Date(
+        `/v1/shifts?startDate=${START_DATE.toISOString()}&endDate=${new Date(
           2023,
           1,
           18,
@@ -193,7 +193,7 @@ describe('shifts', () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/workers')
+      .post('/v1/workers')
       .send({
         name: VALID_WORKER.name,
       } as CreateWorkerRequest)
@@ -203,7 +203,7 @@ describe('shifts', () => {
     const { body: bodyOfCreateShiftRequest } = await request(
       app.getHttpServer(),
     )
-      .post('/shifts')
+      .post('/v1/shifts')
       .send({
         workerId: bodyOfCreateWorkerRequest.id,
         shiftStart: START_DATE,
@@ -213,19 +213,19 @@ describe('shifts', () => {
       .expect(201);
 
     const { body: bodyOfGetShiftsRequest } = await request(app.getHttpServer())
-      .get(`/shifts?date=${START_DATE.toISOString()}`)
+      .get(`/v1/shifts?date=${START_DATE.toISOString()}`)
       .set('Accept', 'application/json')
       .expect(200);
 
     expect(bodyOfGetShiftsRequest.shifts.length).toBe(1);
 
     await request(app.getHttpServer())
-      .delete(`/shifts/${bodyOfCreateShiftRequest.id}`)
+      .delete(`/v1/shifts/${bodyOfCreateShiftRequest.id}`)
       .set('Accept', 'application/json')
       .expect(200);
 
     const { body: bodyOfGetShiftsRequest2 } = await request(app.getHttpServer())
-      .get(`/shifts?date=${START_DATE.toISOString()}`)
+      .get(`/v1/shifts?date=${START_DATE.toISOString()}`)
       .set('Accept', 'application/json')
       .expect(200);
 
