@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Shift } from '../data/typeorm/entities/Shift';
 import { TypeOrmShiftsRepository } from '../data/typeorm/repositories/TypeOrmShiftsRepository';
 import { ShiftRepository } from '../domain/repositories/ShiftRepository';
 import { AttachWorkerToShiftUsecase } from '../interactors/usecases/shift/AttachWorkerToShiftUsecase';
@@ -8,10 +6,11 @@ import { FindShiftsByDateRangeUsecase } from '../interactors/usecases/shift/Find
 import { FindShiftsFromDayUsecase } from '../interactors/usecases/shift/FindShiftsFromDayUsecase';
 import { RemoveShiftUsecase } from '../interactors/usecases/shift/RemoveShiftUsecase';
 import { ShiftsControllers } from '../presentation/http/controllers/v1/ShiftsControllers';
+import { DatabaseModule } from './database.module';
 import { WorkersModule } from './workers.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Shift]), WorkersModule],
+  imports: [DatabaseModule, WorkersModule],
   controllers: [ShiftsControllers],
   providers: [
     {

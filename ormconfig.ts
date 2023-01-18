@@ -9,8 +9,8 @@ export const connectionSource = new DataSource({
   username: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
-  migrations: ['src/data/typeorm/migrations/*.ts'],
-  entities: ['src/data/typeorm/entities/*.ts'],
+  migrations: ['dist/src/data/typeorm/migrations/*.js'],
+  entities: ['dist/src/data/typeorm/entities/*.js'],
   synchronize: false,
   logging: process.env.DATABASE_LOGGING === 'true',
 });
