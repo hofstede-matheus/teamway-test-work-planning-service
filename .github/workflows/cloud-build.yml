@@ -24,7 +24,6 @@ env:
   SERVICE_NAME: teamway-test-work-planning-service
   env: prod
   API_PORT: 3001
-  RUN_SA_KEY: ${{ secrets.RUN_SA_KEY }}
 
 jobs:
   setup-build-deploy:
@@ -47,10 +46,6 @@ jobs:
         with:
           workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
           service_account: 'cloud-build-service-account@teamway-work-planning-service.iam.gserviceaccount.com'
-
-      # Setup gcloud CLI
-      - name: TEST
-        run: echo "$RUN_SA_KEY" $RUN_SA_KEY
 
       # Alternative option - authentication via credentials json
       # - id: 'auth'
@@ -78,4 +73,4 @@ jobs:
           gcloud builds submit \
             --quiet \
             --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
-            -f Dockerfile.prd
+            --file ./Dockerfile.prd
