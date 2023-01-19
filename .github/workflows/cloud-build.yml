@@ -50,7 +50,7 @@ jobs:
 
       # Setup gcloud CLI
       - name: TEST
-        run: echo '$RUN_SA_KEY' $RUN_SA_KEY
+        run: echo "$RUN_SA_KEY" $RUN_SA_KEY
 
       # Alternative option - authentication via credentials json
       - id: 'auth'
