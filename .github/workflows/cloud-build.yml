@@ -24,6 +24,7 @@ env:
   SERVICE_NAME: teamway-test-work-planning-service
   env: build
   API_PORT: 3001
+  RUN_SA_EMAIL: ${{ secrets.RUN_SA_EMAIL }}
 
 jobs:
   setup-build-deploy:
@@ -45,7 +46,7 @@ jobs:
         uses: 'google-github-actions/auth@v1'
         with:
           workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-          service_account: '${{ secrets.RUN_SA_EMAIL }}'
+          service_account: '$RUN_SA_EMAIL'
 
       # Alternative option - authentication via credentials json
       # - id: 'auth'
