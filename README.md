@@ -60,6 +60,10 @@ Nest.js Monolith
 - PostgreSQL 15
 - MongoDB 6
 
+By default, the api uses a Postgres database managed by TypeORM, but via dependency injection, a MongoDB with Mongoose can be used, thus it is respecting the domain repository contract. The same behavior is ensured by integration tests.
+<br>
+Example in `Data (src/data)` section. 
+
 <br>
 
 ### PostgreSQL Schema
