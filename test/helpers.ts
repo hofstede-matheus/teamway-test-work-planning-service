@@ -14,6 +14,8 @@ import { TestDatabaseModule } from './test-database.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { connectionSource } from '../ormconfig-test';
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '.env.test' });
 
 export const VALID_WORKER: WorkerEntity = {
   id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',

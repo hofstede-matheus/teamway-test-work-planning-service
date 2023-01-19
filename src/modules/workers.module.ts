@@ -26,7 +26,7 @@ import { WorkersController } from '../presentation/http/controllers/v1/WorkersCo
   providers: [
     {
       provide: WorkerRepository,
-      useClass: MongoDBWorkersRepository,
+      useClass: TypeOrmWorkersRepository,
     },
     {
       provide: CreateWorkerUsecase,

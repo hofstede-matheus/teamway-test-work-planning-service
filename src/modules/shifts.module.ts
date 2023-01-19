@@ -6,19 +6,20 @@ import {
   WorkDayMongoEntity,
   WorkDaySchema,
 } from '../data/mongodb/schemas/WorkDay';
+import { ShiftTypeOrmEntity } from '../data/typeorm/entities/Shift';
+import { TypeOrmShiftsRepository } from '../data/typeorm/repositories/TypeOrmShiftsRepository';
 import { ShiftRepository } from '../domain/repositories/ShiftRepository';
 import { AttachWorkerToShiftUsecase } from '../interactors/usecases/shift/AttachWorkerToShiftUsecase';
 import { FindShiftsByDateRangeUsecase } from '../interactors/usecases/shift/FindShiftsByDateRangeUsecase';
 import { FindShiftsFromDayUsecase } from '../interactors/usecases/shift/FindShiftsFromDayUsecase';
 import { RemoveShiftUsecase } from '../interactors/usecases/shift/RemoveShiftUsecase';
 import { ShiftsControllers } from '../presentation/http/controllers/v1/ShiftsControllers';
-import { Shift } from '../presentation/http/dto/_shared';
 import { WorkersModule } from './workers.module';
 
 @Module({
   imports: [
     WorkersModule,
-    TypeOrmModule.forFeature([Shift]),
+    TypeOrmModule.forFeature([ShiftTypeOrmEntity]),
     MongooseModule.forFeature([
       { name: WorkDayMongoEntity.name, schema: WorkDaySchema },
     ]),
@@ -27,7 +28,7 @@ import { WorkersModule } from './workers.module';
   providers: [
     {
       provide: ShiftRepository,
-      useClass: MongoDBShiftsRepository,
+      useClass: TypeOrmShiftsRepository,
     },
     {
       provide: AttachWorkerToShiftUsecase,
