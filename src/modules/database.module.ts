@@ -18,7 +18,7 @@ export const databaseProviders: Array<
     },
   }),
   MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STRING, {
-    dbName: process.env.MONGODB_DB_NAME,
+    dbName: process.env.MONGODB_DATABASE_NAME,
   }),
 ];
 
