@@ -61,6 +61,7 @@ jobs:
       - name: Build
         run: |-
           echo ${{ secrets.RUN_SA_KEY }} > gcloud-service-key.json && \
+          cat gcloud-service-key.json && \
           gcloud auth activate-service-account --key-file gcloud-service-key.json && \
           gcloud builds submit \
             --config=cloudbuild.yaml
