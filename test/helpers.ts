@@ -12,6 +12,8 @@ import { ShiftsModule } from '../src/modules/shifts.module';
 import { ShiftTypeOrmEntity } from '../src/data/typeorm/entities/Shift';
 import { TestDatabaseModule } from './test-database.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+import { connectionSource } from '../ormconfig-test';
 
 export const VALID_WORKER: WorkerEntity = {
   id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
@@ -88,16 +90,17 @@ export const TEST_CONFIG = [
     entities: ALL_TYPEORM_ENTITIES,
     logging: process.env.DATABASE_LOGGING === 'true',
   }),
-  MongooseModule.forRoot(
-    'mongodb://teamway-test-work-planning-service:teamway-test-work-planning-service@localhost:27017/?authMechanism=DEFAULT',
-    {
-      dbName: 'teamway-test-work-planning-service-test',
-    },
-  ),
+  MongooseModule.forRoot(process.env.MONGODB_CONNECTION_STRING, {
+    dbName: process.env.MONGODB_DATABASE_NAME,
+  }),
   ...ALL_MODULES,
 ];
 
 export async function generateTestingApp(): Promise<INestApplication> {
+  mongoose.connect(process.env.MONGODB_CONNECTION_STRING, {
+    dbName: process.env.MONGODB_DATABASE_NAME,
+  });
+  connectionSource.initialize();
   const module = await Test.createTestingModule({
     imports: TEST_CONFIG,
     providers: [],
@@ -108,4 +111,18 @@ export async function generateTestingApp(): Promise<INestApplication> {
     type: VersioningType.URI,
   });
   return app;
+}
+
+export async function closeTestingApp(app: INestApplication): Promise<void> {
+  await app.close();
+  await mongoose.disconnect();
+  await connectionSource.destroy();
+}
+
+export async function clearDatabase(): Promise<void> {
+  await mongoose.connection.db.collection('workers').deleteMany({});
+  await mongoose.connection.db.collection('workDays').deleteMany({});
+
+  await connectionSource.query(`DELETE FROM workers`);
+  await connectionSource.query(`DELETE FROM shifts`);
 }

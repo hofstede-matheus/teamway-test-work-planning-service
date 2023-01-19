@@ -7,11 +7,12 @@ import {
 } from '../../../domain/entities/Shift.entity';
 import { WorkerEntity } from '../../../domain/entities/Worker.entity';
 import { ShiftRepository } from '../../../domain/repositories/ShiftRepository';
-import { WorkDayMongoEntity, WorkDayDocument } from '../schemas/Shift';
+import { WorkDayMongoEntity, WorkDayDocument } from '../schemas/WorkDay';
 
 export class MongoDBShiftsRepository implements ShiftRepository {
   constructor(
-    @InjectModel(WorkDayMongoEntity.name) private workDayModel: Model<WorkDayDocument>,
+    @InjectModel(WorkDayMongoEntity.name)
+    private workDayModel: Model<WorkDayDocument>,
   ) {}
 
   async create(

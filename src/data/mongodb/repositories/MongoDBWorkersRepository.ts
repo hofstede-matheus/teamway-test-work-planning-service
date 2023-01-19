@@ -6,7 +6,8 @@ import { WorkerDocument, WorkerMongoEntity } from '../schemas/Worker';
 
 export class MongoDBWorkersRepository implements WorkerRepository {
   constructor(
-    @InjectModel(WorkerMongoEntity.name) private workerModel: Model<WorkerDocument>,
+    @InjectModel(WorkerMongoEntity.name)
+    private workerModel: Model<WorkerDocument>,
   ) {}
 
   async create(name: string): Promise<WorkerEntity> {

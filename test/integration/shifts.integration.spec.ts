@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
-import { connectionSource } from '../../ormconfig-test';
 import {
+  clearDatabase,
+  closeTestingApp,
   END_DATE,
   generateTestingApp,
   START_DATE,
@@ -9,36 +10,21 @@ import {
 import * as request from 'supertest';
 import { CreateWorkerRequest } from '../../src/presentation/http/dto/CreateWorker';
 import { CreateShiftRequest } from '../../src/presentation/http/dto/CreateShift';
-import mongoose from 'mongoose';
 
 describe('shifts', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    mongoose.connect(
-      'mongodb://teamway-test-work-planning-service:teamway-test-work-planning-service@localhost:27017/?authMechanism=DEFAULT',
-      {
-        dbName: 'teamway-test-work-planning-service-test',
-      },
-    );
-    connectionSource.initialize();
-
     app = await generateTestingApp();
     await app.init();
   });
 
   afterAll(async () => {
-    await app.close();
-    await mongoose.disconnect();
-    await connectionSource.destroy();
+    await closeTestingApp(app);
   });
 
   afterEach(async () => {
-    await mongoose.connection.db.collection('workers').deleteMany({});
-    await mongoose.connection.db.collection('workdays').deleteMany({});
-
-    await connectionSource.query(`DELETE FROM workers`);
-    await connectionSource.query(`DELETE FROM shifts`);
+    await clearDatabase();
   });
 
   it('shoud be able to attach a worker to a shift', async () => {
@@ -103,8 +89,8 @@ describe('shifts', () => {
         shiftStart: START_DATE,
         shiftEnd: END_DATE,
       } as CreateShiftRequest)
-      .set('Accept', 'application/json');
-    // .expect(400);
+      .set('Accept', 'application/json')
+      .expect(400);
 
     expect(bodyOfCreateShiftRequest.error).toBe('ShiftAlreadyTakenError');
   });

@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
 export type WorkerDocument = WorkerMongoEntity & Document;
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'workers' })
 export class WorkerMongoEntity {
   @Prop()
   id: string;

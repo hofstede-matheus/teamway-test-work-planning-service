@@ -25,7 +25,7 @@ export class ShiftMongoEntity {
 }
 
 export const ShiftSchema = SchemaFactory.createForClass(ShiftMongoEntity);
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'workDays' })
 export class WorkDayMongoEntity {
   @Prop()
   workDay: Date;

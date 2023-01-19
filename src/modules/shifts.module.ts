@@ -5,7 +5,7 @@ import { MongoDBShiftsRepository } from '../data/mongodb/repositories/MongoDBShi
 import {
   WorkDayMongoEntity,
   WorkDaySchema,
-} from '../data/mongodb/schemas/Shift';
+} from '../data/mongodb/schemas/WorkDay';
 import { ShiftRepository } from '../domain/repositories/ShiftRepository';
 import { AttachWorkerToShiftUsecase } from '../interactors/usecases/shift/AttachWorkerToShiftUsecase';
 import { FindShiftsByDateRangeUsecase } from '../interactors/usecases/shift/FindShiftsByDateRangeUsecase';

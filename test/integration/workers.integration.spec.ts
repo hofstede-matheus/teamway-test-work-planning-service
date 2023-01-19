@@ -1,35 +1,27 @@
 import { INestApplication } from '@nestjs/common';
-import { connectionSource } from '../../ormconfig-test';
-import { generateTestingApp, VALID_WORKER } from '../helpers';
+import {
+  clearDatabase,
+  closeTestingApp,
+  generateTestingApp,
+  VALID_WORKER,
+} from '../helpers';
 import * as request from 'supertest';
 import { CreateWorkerRequest } from '../../src/presentation/http/dto/CreateWorker';
-import mongoose from 'mongoose';
 
 describe('workers', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
-    mongoose.connect(
-      'mongodb://teamway-test-work-planning-service:teamway-test-work-planning-service@localhost:27017/?authMechanism=DEFAULT',
-      {
-        dbName: 'teamway-test-work-planning-service-test',
-      },
-    );
-    connectionSource.initialize();
-
     app = await generateTestingApp();
     await app.init();
   });
 
   afterAll(async () => {
-    await app.close();
-    await mongoose.disconnect();
-    await connectionSource.destroy();
+    await closeTestingApp(app);
   });
 
   afterEach(async () => {
-    await mongoose.connection.db.collection('workers').deleteMany({});
-    await connectionSource.query(`DELETE FROM workers`);
+    await clearDatabase();
   });
 
   it('shoud be able to create a worker', async () => {
