@@ -33,12 +33,11 @@ export class Validator {
         .sparse()
         .items(
           Joi.string()
-            .when('id', {
-              is: Joi.not(Joi.string().uuid()),
-              then: Joi.string().regex(objectIdCheckerRegexExp),
-              otherwise: Joi.string().uuid(),
+            .when('.', {
+              is: Joi.string().uuid(),
+              then: Joi.string().uuid(),
+              otherwise: Joi.string().regex(objectIdCheckerRegexExp),
             })
-            .regex(objectIdCheckerRegexExp)
             .error(() => new InvalidIdError()),
         ),
       // add rules for each parameter in ValidatorParams

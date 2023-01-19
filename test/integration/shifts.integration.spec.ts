@@ -319,7 +319,8 @@ describe('shifts', () => {
         shiftStart: new Date(2023, 1, 17, 8, 0, 0, 0),
         shiftEnd: new Date(2023, 1, 17, 16, 0, 0, 0),
       } as CreateShiftRequest)
-      .set('Accept', 'application/json');
+      .set('Accept', 'application/json')
+      .expect(201);
 
     const { body: bodyOfGetShiftsRequest } = await request(app.getHttpServer())
       .get(`/v1/shifts?date=${START_DATE.toISOString()}`)
