@@ -59,17 +59,17 @@ jobs:
 
       # Build and push image to Google Container Registry
       - name: Build
-        run: echo env=$env >> .env
-        run: echo DATABASE_HOST=$DATABASE_HOST
-        run: echo DATABASE_NAME=$DATABASE_NAME >> .env
-        run: echo DATABASE_USER=$DATABASE_USER >> .env
-        run: echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> .env
-        run: echo DATABASE_PORT=$DATABASE_PORT >> .env
-        run: echo DATABASE_LOGGING=$DATABASE_LOGGING >> .env
-        run: echo API_PORT=$API_PORT >> .env
-        run: echo MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING >> .env
-        run: echo MONGODB_DATABASE_NAME=$MONGODB_DATABASE_NAME >> .env
         run: |-
+          echo env=$env >> .env
+          echo DATABASE_HOST=$DATABASE_HOST
+          echo DATABASE_NAME=$DATABASE_NAME >> .env
+          echo DATABASE_USER=$DATABASE_USER >> .env
+          echo DATABASE_PASSWORD=$DATABASE_PASSWORD >> .env
+          echo DATABASE_PORT=$DATABASE_PORT >> .env
+          echo DATABASE_LOGGING=$DATABASE_LOGGING >> .env
+          echo API_PORT=$API_PORT >> .env
+          echo MONGODB_CONNECTION_STRING=$MONGODB_CONNECTION_STRING >> .env
+          echo MONGODB_DATABASE_NAME=$MONGODB_DATABASE_NAME >> .env
           gcloud builds submit \
             --quiet \
             --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA" \
