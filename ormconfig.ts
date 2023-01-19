@@ -14,4 +14,5 @@ export const connectionSource = new DataSource({
   synchronize: false,
   logging: process.env.DATABASE_LOGGING === 'true',
   ssl: process.env.DATABASE_SSL === 'true',
+  migrationsRun: true,
 });
