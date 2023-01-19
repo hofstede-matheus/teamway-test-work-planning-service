@@ -22,7 +22,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
   SERVICE_NAME: teamway-test-work-planning-service
-  env: prod
+  env: build
   API_PORT: 3001
 
 jobs:
