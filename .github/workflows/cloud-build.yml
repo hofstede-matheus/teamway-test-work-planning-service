@@ -60,5 +60,7 @@ jobs:
       # Build and push image to Google Container Registry
       - name: Build
         run: |-
+          echo ${{ secrets.RUN_SA_KEY }} > gcloud-service-key.json && \
+          gcloud auth activate-service-account --key-file gcloud-service-key.json && \
           gcloud builds submit \
             --config=cloudbuild.yaml
