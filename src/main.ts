@@ -32,7 +32,9 @@ async function bootstrap() {
   );
 
   await app.listen(API_PORT, () => {
-    console.log(`API running on port ${API_PORT} ✨`);
+    console.log(
+      `API running on port ${API_PORT} ✨ (${process.env.env}) (${process.env.NODE_ENV})`,
+    );
   });
 }
 bootstrap();
