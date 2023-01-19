@@ -47,6 +47,10 @@ jobs:
       #     workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
       #     service_account: '${{ secrets.RUN_SA_EMAIL }}'
 
+      # Setup gcloud CLI
+      - name: TEST
+        run: echo '${{ secrets.RUN_SA_KEY }}'
+
       # Alternative option - authentication via credentials json
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
