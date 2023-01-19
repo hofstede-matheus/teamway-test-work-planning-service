@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Build with Cloud Build
+name: Build using Cloud Build
 
 on:
   push:
@@ -21,9 +21,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
-  SERVICE_NAME: teamway-test-work-planning-service
-  env: prod
-  API_PORT: 3001
+  SERVICE_NAME: helloworld-nodejs
 
 jobs:
   setup-build-deploy:
@@ -40,18 +38,18 @@ jobs:
         uses: actions/checkout@v3
 
       # Configure Workload Identity Federation and generate an access token.
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
-          service_account: 'cloud-build-service-account@teamway-work-planning-service.iam.gserviceaccount.com'
-
-      # Alternative option - authentication via credentials json
       # - id: 'auth'
+      #   name: 'Authenticate to Google Cloud'
       #   uses: 'google-github-actions/auth@v1'
       #   with:
-      #     credentials_json: '${{ secrets.RUN_SA_KEY }}'
+      #     workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+      #     service_account: '${{ secrets.RUN_SA_EMAIL }}'
+
+      # Alternative option - authentication via credentials json
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.RUN_SA_KEY }}'
 
       # Setup gcloud CLI
       - name: Set up Cloud SDK
@@ -60,8 +58,6 @@ jobs:
       # Build and push image to Google Container Registry
       - name: Build
         run: |-
-          echo ${{ secrets.RUN_SA_KEY }} > gcloud-service-key.json && \
-          cat gcloud-service-key.json && \
-          gcloud auth activate-service-account --key-file gcloud-service-key.json && \
           gcloud builds submit \
-            --config=cloudbuild.yaml
+            --quiet \
+            --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA"
