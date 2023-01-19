@@ -11,6 +11,7 @@ import { WorkerEntity } from '../src/domain/entities/Worker.entity';
 import { ShiftsModule } from '../src/modules/shifts.module';
 import { Shift } from '../src/data/typeorm/entities/Shift';
 import { TestDatabaseModule } from './test-database.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 export const VALID_WORKER: WorkerEntity = {
   id: 'bc7e1f21-4f06-48ad-a9b4-f6bd0e6973b9',
@@ -87,6 +88,12 @@ export const TEST_CONFIG = [
     entities: ALL_TYPEORM_ENTITIES,
     logging: process.env.DATABASE_LOGGING === 'true',
   }),
+  MongooseModule.forRoot(
+    'mongodb://teamway-test-work-planning-service:teamway-test-work-planning-service@localhost:27017/?authMechanism=DEFAULT',
+    {
+      dbName: 'teamway-test-work-planning-service-test',
+    },
+  ),
   ...ALL_MODULES,
 ];
 

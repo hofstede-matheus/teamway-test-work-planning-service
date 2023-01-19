@@ -1,9 +1,11 @@
 import * as Joi from 'joi';
+
 import { InvalidIdError } from '../../domain/errors/domain-errors';
 import { Either, left, right } from './either';
 import { DomainError } from './errors';
 
 type OrUndefined<T> = (T | undefined)[];
+const objectIdCheckerRegexExp = /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i;
 
 // add a parameter here to validate
 // to handle different parameters in different contexts, add a parameter in the following format: ${parameter}${Context}
@@ -31,7 +33,12 @@ export class Validator {
         .sparse()
         .items(
           Joi.string()
-            .uuid()
+            .when('id', {
+              is: Joi.not(Joi.string().uuid()),
+              then: Joi.string().regex(objectIdCheckerRegexExp),
+              otherwise: Joi.string().uuid(),
+            })
+            .regex(objectIdCheckerRegexExp)
             .error(() => new InvalidIdError()),
         ),
       // add rules for each parameter in ValidatorParams

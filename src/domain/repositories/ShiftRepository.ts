@@ -1,4 +1,8 @@
-import { ShiftSlot, ShiftEntity, WorkDay } from '../entities/Shift.entity';
+import {
+  ShiftSlot,
+  ShiftEntity,
+  WorkDayEntity,
+} from '../entities/Shift.entity';
 import { WorkerEntity } from '../entities/Worker.entity';
 
 export interface ShiftRepository {
@@ -7,8 +11,8 @@ export interface ShiftRepository {
     workDay: Date,
     worker: WorkerEntity,
   ): Promise<ShiftEntity>;
-  findByWorkDay(workDay: Date): Promise<WorkDay>;
-  findByWorkDays(startDay: Date, endDay: Date): Promise<WorkDay[]>;
+  findByWorkDay(workDay: Date): Promise<WorkDayEntity>;
+  findByWorkDays(startDay: Date, endDay: Date): Promise<WorkDayEntity[]>;
   remove(id: string): Promise<void>;
 }
 

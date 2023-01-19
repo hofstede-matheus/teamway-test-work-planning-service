@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import {
   ShiftSlot,
   ShiftEntity,
-  WorkDay,
+  WorkDayEntity,
 } from '../../../domain/entities/Shift.entity';
 import { WorkerEntity } from '../../../domain/entities/Worker.entity';
 import { ShiftRepository } from '../../../domain/repositories/ShiftRepository';
@@ -47,7 +47,7 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
     };
   }
 
-  async findByWorkDay(workDay: Date): Promise<WorkDay> {
+  async findByWorkDay(workDay: Date): Promise<WorkDayEntity> {
     const workDayInDatabase = await this.shiftsRepository.query(
       `
       SELECT 
@@ -59,7 +59,7 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
     `,
       [workDay],
     );
-    const mappedWorkDay: WorkDay = {
+    const mappedWorkDay: WorkDayEntity = {
       date: workDay,
       shifts: workDayInDatabase.map(
         (shift) =>
@@ -81,7 +81,7 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
 
     return mappedWorkDay;
   }
-  async findByWorkDays(startDay: Date, endDay: Date): Promise<WorkDay[]> {
+  async findByWorkDays(startDay: Date, endDay: Date): Promise<WorkDayEntity[]> {
     const workDayInDatabase = await this.shiftsRepository.query(
       `
       SELECT 
@@ -115,9 +115,9 @@ export class TypeOrmShiftsRepository implements ShiftRepository {
         updatedAt: shift.updated_at,
       } as ShiftEntity);
       return acc;
-    }, {} as { [key: string]: WorkDay });
+    }, {} as { [key: string]: WorkDayEntity });
 
-    const workDaysArray: WorkDay[] = Object.values(workDays);
+    const workDaysArray: WorkDayEntity[] = Object.values(workDays);
     const sortedWorkDays = workDaysArray.sort((a, b) => {
       return a.date.getTime() - b.date.getTime();
     });

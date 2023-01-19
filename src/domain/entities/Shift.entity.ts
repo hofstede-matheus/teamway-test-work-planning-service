@@ -17,7 +17,7 @@ export enum ShiftSlot {
   THIRD = 'THIRD',
 }
 
-export interface WorkDay {
+export interface WorkDayEntity {
   readonly date: Date;
   readonly shifts: ShiftEntity[];
 }
@@ -72,7 +72,7 @@ export class ShiftEntity {
 
   public static checkIfShiftSlotIsAvailableForWorker(
     worker: WorkerEntity,
-    workDay: WorkDay,
+    workDay: WorkDayEntity,
   ): Either<DomainError, void> {
     const workerShifts = workDay.shifts.filter(
       (shift) => shift?.worker.id === worker.id,
@@ -119,7 +119,7 @@ export class ShiftEntity {
 
   public static checkIfShiftsOverlap(
     shiftToBeCreated: ShiftEntity,
-    workDay: WorkDay,
+    workDay: WorkDayEntity,
   ): Either<DomainError, void> {
     const overlappingShifts = workDay.shifts.filter(
       (shift) => shift?.shiftSlot === shiftToBeCreated.shiftSlot,

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { WorkDay } from '../../../domain/entities/Shift.entity';
+import { WorkDayEntity } from '../../../domain/entities/Shift.entity';
 import { ShiftRepository } from '../../../domain/repositories/ShiftRepository';
 import { Either, right } from '../../../shared/helpers/either';
 import { DomainError } from '../../../shared/helpers/errors';
@@ -11,7 +11,7 @@ export class FindShiftsFromDayUsecase implements UseCase {
     @Inject(ShiftRepository)
     private shiftRepository: ShiftRepository,
   ) {}
-  async execute(date: Date): Promise<Either<DomainError, WorkDay>> {
+  async execute(date: Date): Promise<Either<DomainError, WorkDayEntity>> {
     const workDay = await this.shiftRepository.findByWorkDay(date);
     return right(workDay);
   }

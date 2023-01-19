@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Worker } from '../data/typeorm/entities/Worker';
+import { MongoDBWorkersRepository } from '../data/mongodb/repositories/MongoDBWorkersRepository';
+import { Worker, WorkerSchema } from '../data/mongodb/schemas/Worker';
 import { TypeOrmWorkersRepository } from '../data/typeorm/repositories/TypeOrmWorkersRepository';
 import { WorkerRepository } from '../domain/repositories/WorkerRepository';
 import { CreateWorkerUsecase } from '../interactors/usecases/worker/CreateWorkerUsecase';
@@ -10,12 +12,15 @@ import { UpdateWorkerUsecase } from '../interactors/usecases/worker/UpdateWorker
 import { WorkersController } from '../presentation/http/controllers/v1/WorkersControllers';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Worker])],
+  imports: [
+    // TypeOrmModule.forFeature([Worker]),
+    MongooseModule.forFeature([{ name: Worker.name, schema: WorkerSchema }]),
+  ],
   controllers: [WorkersController],
   providers: [
     {
       provide: WorkerRepository,
-      useClass: TypeOrmWorkersRepository,
+      useClass: MongoDBWorkersRepository,
     },
     {
       provide: CreateWorkerUsecase,

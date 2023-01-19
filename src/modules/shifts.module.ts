@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Shift } from '../data/typeorm/entities/Shift';
+import { MongoDBShiftsRepository } from '../data/mongodb/repositories/MongoDBShiftsRepository';
+import { WorkDay, WorkDaySchema } from '../data/mongodb/schemas/Shift';
 import { TypeOrmShiftsRepository } from '../data/typeorm/repositories/TypeOrmShiftsRepository';
 import { ShiftRepository } from '../domain/repositories/ShiftRepository';
 import { AttachWorkerToShiftUsecase } from '../interactors/usecases/shift/AttachWorkerToShiftUsecase';
@@ -11,12 +13,16 @@ import { ShiftsControllers } from '../presentation/http/controllers/v1/ShiftsCon
 import { WorkersModule } from './workers.module';
 
 @Module({
-  imports: [WorkersModule, TypeOrmModule.forFeature([Shift])],
+  imports: [
+    WorkersModule,
+    // TypeOrmModule.forFeature([Shift]),
+    MongooseModule.forFeature([{ name: WorkDay.name, schema: WorkDaySchema }]),
+  ],
   controllers: [ShiftsControllers],
   providers: [
     {
       provide: ShiftRepository,
-      useClass: TypeOrmShiftsRepository,
+      useClass: MongoDBShiftsRepository,
     },
     {
       provide: AttachWorkerToShiftUsecase,

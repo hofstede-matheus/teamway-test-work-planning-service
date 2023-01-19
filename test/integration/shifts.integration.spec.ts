@@ -9,11 +9,18 @@ import {
 import * as request from 'supertest';
 import { CreateWorkerRequest } from '../../src/presentation/http/dto/CreateWorker';
 import { CreateShiftRequest } from '../../src/presentation/http/dto/CreateShift';
+import mongoose from 'mongoose';
 
 describe('shifts', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
+    mongoose.connect(
+      'mongodb://teamway-test-work-planning-service:teamway-test-work-planning-service@localhost:27017/?authMechanism=DEFAULT',
+      {
+        dbName: 'teamway-test-work-planning-service-test',
+      },
+    );
     connectionSource.initialize();
 
     app = await generateTestingApp();
@@ -22,10 +29,14 @@ describe('shifts', () => {
 
   afterAll(async () => {
     await app.close();
+    await mongoose.disconnect();
     await connectionSource.destroy();
   });
 
   afterEach(async () => {
+    await mongoose.connection.db.collection('workers').deleteMany({});
+    await mongoose.connection.db.collection('workdays').deleteMany({});
+
     await connectionSource.query(`DELETE FROM workers`);
     await connectionSource.query(`DELETE FROM shifts`);
   });
@@ -60,6 +71,42 @@ describe('shifts', () => {
     expect(bodyOfCreateShiftRequest.shiftSlot).toBe('FIRST');
     expect(bodyOfCreateShiftRequest.createdAt).toBeDefined();
     expect(bodyOfCreateShiftRequest.updatedAt).toBeDefined();
+  });
+
+  it('should NOT create shift when worker already has a shift on the day', async () => {
+    const { body: bodyOfCreateWorkerRequest } = await request(
+      app.getHttpServer(),
+    )
+      .post('/v1/workers')
+      .send({
+        name: VALID_WORKER.name,
+      } as CreateWorkerRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .post('/v1/shifts')
+      .send({
+        workerId: bodyOfCreateWorkerRequest.id,
+        shiftStart: START_DATE,
+        shiftEnd: END_DATE,
+      } as CreateShiftRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    const { body: bodyOfCreateShiftRequest } = await request(
+      app.getHttpServer(),
+    )
+      .post('/v1/shifts')
+      .send({
+        workerId: bodyOfCreateWorkerRequest.id,
+        shiftStart: START_DATE,
+        shiftEnd: END_DATE,
+      } as CreateShiftRequest)
+      .set('Accept', 'application/json');
+    // .expect(400);
+
+    expect(bodyOfCreateShiftRequest.error).toBe('ShiftAlreadyTakenError');
   });
 
   it('shoud be able to get shifts from a day', async () => {
@@ -230,5 +277,67 @@ describe('shifts', () => {
       .expect(200);
 
     expect(bodyOfGetShiftsRequest2.shifts.length).toBe(0);
+  });
+
+  it('shoud be able to remove a shift with other shifts on workday', async () => {
+    const { body: bodyOfCreateWorkerRequest } = await request(
+      app.getHttpServer(),
+    )
+      .post('/v1/workers')
+      .send({
+        name: VALID_WORKER.name,
+      } as CreateWorkerRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    const { body: bodyOfCreateWorkerRequest2 } = await request(
+      app.getHttpServer(),
+    )
+      .post('/v1/workers')
+      .send({
+        name: VALID_WORKER.name,
+      } as CreateWorkerRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    const { body: bodyOfCreateShiftRequest } = await request(
+      app.getHttpServer(),
+    )
+      .post('/v1/shifts')
+      .send({
+        workerId: bodyOfCreateWorkerRequest.id,
+        shiftStart: START_DATE,
+        shiftEnd: END_DATE,
+      } as CreateShiftRequest)
+      .set('Accept', 'application/json')
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .post('/v1/shifts')
+      .send({
+        workerId: bodyOfCreateWorkerRequest2.id,
+        shiftStart: new Date(2023, 1, 17, 8, 0, 0, 0),
+        shiftEnd: new Date(2023, 1, 17, 16, 0, 0, 0),
+      } as CreateShiftRequest)
+      .set('Accept', 'application/json');
+
+    const { body: bodyOfGetShiftsRequest } = await request(app.getHttpServer())
+      .get(`/v1/shifts?date=${START_DATE.toISOString()}`)
+      .set('Accept', 'application/json')
+      .expect(200);
+
+    expect(bodyOfGetShiftsRequest.shifts.length).toBe(2);
+
+    await request(app.getHttpServer())
+      .delete(`/v1/shifts/${bodyOfCreateShiftRequest.id}`)
+      .set('Accept', 'application/json')
+      .expect(200);
+
+    const { body: bodyOfGetShiftsRequest2 } = await request(app.getHttpServer())
+      .get(`/v1/shifts?date=${START_DATE.toISOString()}`)
+      .set('Accept', 'application/json')
+      .expect(200);
+
+    expect(bodyOfGetShiftsRequest2.shifts.length).toBe(1);
   });
 });

@@ -18,7 +18,18 @@ services:
       - POSTGRES_USER=teamway-test-work-planning-service
       - POSTGRES_PASSWORD=teamway-test-work-planning-service
       - POSTGRES_DB=teamway-test-work-planning-service
+  mongo:
+    image: mongo:6.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: teamway-test-work-planning-service
+      MONGO_INITDB_ROOT_PASSWORD: teamway-test-work-planning-service
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
 
 volumes:
   postgres_data:
+    driver: local
+  mongo_data:
     driver: local
