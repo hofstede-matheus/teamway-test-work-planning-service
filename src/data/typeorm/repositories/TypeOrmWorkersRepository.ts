@@ -2,12 +2,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WorkerEntity } from '../../../domain/entities/Worker.entity';
 import { WorkerRepository } from '../../../domain/repositories/WorkerRepository';
-import { Worker } from '../entities/Worker';
+import { WorkerTypeOrmEntity } from '../entities/Worker';
 
 export class TypeOrmWorkersRepository implements WorkerRepository {
   constructor(
-    @InjectRepository(Worker)
-    private readonly workersRepository: Repository<Worker>,
+    @InjectRepository(WorkerTypeOrmEntity)
+    private readonly workersRepository: Repository<WorkerTypeOrmEntity>,
   ) {}
 
   async remove(id: string): Promise<void> {

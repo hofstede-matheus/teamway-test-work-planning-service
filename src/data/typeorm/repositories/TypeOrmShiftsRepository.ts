@@ -7,12 +7,12 @@ import {
 } from '../../../domain/entities/Shift.entity';
 import { WorkerEntity } from '../../../domain/entities/Worker.entity';
 import { ShiftRepository } from '../../../domain/repositories/ShiftRepository';
-import { Shift } from '../entities/Shift';
+import { ShiftTypeOrmEntity } from '../entities/Shift';
 
 export class TypeOrmShiftsRepository implements ShiftRepository {
   constructor(
-    @InjectRepository(Shift)
-    private readonly shiftsRepository: Repository<Shift>,
+    @InjectRepository(ShiftTypeOrmEntity)
+    private readonly shiftsRepository: Repository<ShiftTypeOrmEntity>,
   ) {}
 
   async remove(id: string): Promise<void> {

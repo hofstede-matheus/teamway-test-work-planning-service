@@ -4,12 +4,12 @@ import { WorkerRepository } from '../src/domain/repositories/WorkerRepository';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WorkersModule } from '../src/modules/workers.module';
-import { Worker } from '../src/data/typeorm/entities/Worker';
+import { WorkerTypeOrmEntity } from '../src/data/typeorm/entities/Worker';
 import { ShiftRepository } from '../src/domain/repositories/ShiftRepository';
 import { ShiftEntity, ShiftSlot } from '../src/domain/entities/Shift.entity';
 import { WorkerEntity } from '../src/domain/entities/Worker.entity';
 import { ShiftsModule } from '../src/modules/shifts.module';
-import { Shift } from '../src/data/typeorm/entities/Shift';
+import { ShiftTypeOrmEntity } from '../src/data/typeorm/entities/Shift';
 import { TestDatabaseModule } from './test-database.module';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -70,7 +70,7 @@ export const ALL_MODULES = [
   ShiftsModule,
 ];
 
-export const ALL_TYPEORM_ENTITIES = [Worker, Shift];
+export const ALL_TYPEORM_ENTITIES = [WorkerTypeOrmEntity, ShiftTypeOrmEntity];
 
 export const TEST_CONFIG = [
   ConfigModule.forRoot({

@@ -2,11 +2,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { WorkerEntity } from '../../../domain/entities/Worker.entity';
 import { WorkerRepository } from '../../../domain/repositories/WorkerRepository';
-import { WorkerDocument, Worker } from '../schemas/Worker';
+import { WorkerDocument, WorkerMongoEntity } from '../schemas/Worker';
 
 export class MongoDBWorkersRepository implements WorkerRepository {
   constructor(
-    @InjectModel(Worker.name) private workerModel: Model<WorkerDocument>,
+    @InjectModel(WorkerMongoEntity.name) private workerModel: Model<WorkerDocument>,
   ) {}
 
   async create(name: string): Promise<WorkerEntity> {

@@ -9,7 +9,7 @@ import {
 import { ShiftSlot } from '../../../domain/entities/Shift.entity';
 
 @Entity('shifts')
-export class Shift {
+export class ShiftTypeOrmEntity {
   @PrimaryGeneratedColumn()
   id: string;
 

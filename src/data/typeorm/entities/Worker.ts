@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity('workers')
-export class Worker {
+export class WorkerTypeOrmEntity {
   @PrimaryGeneratedColumn()
   id: string;
 

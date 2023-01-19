@@ -2,8 +2,8 @@ import { DynamicModule, ForwardReference, Module, Type } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { connectionSource } from '../ormconfig-test';
-import { Shift } from '../src/data/typeorm/entities/Shift';
-import { Worker } from '../src/data/typeorm/entities/Worker';
+import { ShiftTypeOrmEntity } from '../src/data/typeorm/entities/Shift';
+import { WorkerTypeOrmEntity } from '../src/data/typeorm/entities/Worker';
 
 export const databaseProviders: Array<
   Type<any> | DynamicModule | Promise<DynamicModule> | ForwardReference

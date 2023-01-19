@@ -1,38 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
 import { ShiftSlot } from '../../../domain/entities/Shift.entity';
-import { Worker } from './Worker';
+import { WorkerMongoEntity } from './Worker';
 
-export type WorkDayDocument = WorkDay & Document;
-
-const WorkDayShiftSchema = new mongoose.Schema(
-  {
-    workday: { type: Date, required: true },
-    createdAt: { type: Date, required: true },
-    updatedAt: { type: Date, required: true },
-    deletedAt: { type: Date, required: false },
-    shifts: [
-      new mongoose.Schema({
-        shiftSlot: { type: String, required: true },
-        worker: { type: mongoose.Schema.Types.ObjectId, ref: 'Worker' },
-        createdAt: { type: Date, required: true },
-        updatedAt: { type: Date, required: true },
-        deletedAt: { type: Date, required: false },
-      }),
-    ],
-  },
-  { timestamps: true },
-);
+export type WorkDayDocument = WorkDayMongoEntity & Document;
 
 @Schema({ timestamps: true, _id: true })
-export class Shift {
+export class ShiftMongoEntity {
   _id?: string;
 
   @Prop()
   shiftSlot: ShiftSlot;
 
   @Prop()
-  worker: Worker;
+  worker: WorkerMongoEntity;
 
   @Prop()
   createdAt?: Date;
@@ -44,14 +24,14 @@ export class Shift {
   deletedAt?: Date;
 }
 
-export const ShiftSchema = SchemaFactory.createForClass(Shift);
+export const ShiftSchema = SchemaFactory.createForClass(ShiftMongoEntity);
 @Schema({ timestamps: true })
-export class WorkDay {
+export class WorkDayMongoEntity {
   @Prop()
   workDay: Date;
 
   @Prop({ type: [ShiftSchema], default: [] })
-  shifts: Shift[];
+  shifts: ShiftMongoEntity[];
 
   @Prop()
   createdAt?: Date;
@@ -63,4 +43,4 @@ export class WorkDay {
   deletedAt?: Date;
 }
 
-export const WorkDaySchema = SchemaFactory.createForClass(WorkDay);
+export const WorkDaySchema = SchemaFactory.createForClass(WorkDayMongoEntity);

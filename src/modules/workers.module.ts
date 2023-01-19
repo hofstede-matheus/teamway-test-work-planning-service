@@ -2,7 +2,11 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongoDBWorkersRepository } from '../data/mongodb/repositories/MongoDBWorkersRepository';
-import { Worker, WorkerSchema } from '../data/mongodb/schemas/Worker';
+import {
+  WorkerMongoEntity,
+  WorkerSchema,
+} from '../data/mongodb/schemas/Worker';
+import { WorkerTypeOrmEntity } from '../data/typeorm/entities/Worker';
 import { TypeOrmWorkersRepository } from '../data/typeorm/repositories/TypeOrmWorkersRepository';
 import { WorkerRepository } from '../domain/repositories/WorkerRepository';
 import { CreateWorkerUsecase } from '../interactors/usecases/worker/CreateWorkerUsecase';
@@ -13,8 +17,10 @@ import { WorkersController } from '../presentation/http/controllers/v1/WorkersCo
 
 @Module({
   imports: [
-    // TypeOrmModule.forFeature([Worker]),
-    MongooseModule.forFeature([{ name: Worker.name, schema: WorkerSchema }]),
+    TypeOrmModule.forFeature([WorkerTypeOrmEntity]),
+    MongooseModule.forFeature([
+      { name: WorkerMongoEntity.name, schema: WorkerSchema },
+    ]),
   ],
   controllers: [WorkersController],
   providers: [

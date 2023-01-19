@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-export type WorkerDocument = Worker & Document;
+export type WorkerDocument = WorkerMongoEntity & Document;
 
 @Schema({ timestamps: true })
-export class Worker {
+export class WorkerMongoEntity {
   @Prop()
   id: string;
 
@@ -20,4 +20,4 @@ export class Worker {
   deletedAt?: Date;
 }
 
-export const WorkerSchema = SchemaFactory.createForClass(Worker);
+export const WorkerSchema = SchemaFactory.createForClass(WorkerMongoEntity);
