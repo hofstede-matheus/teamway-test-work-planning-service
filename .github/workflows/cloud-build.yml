@@ -21,7 +21,7 @@ on:
 
 env:
   PROJECT_ID: ${{ secrets.RUN_PROJECT }}
-  SERVICE_NAME: helloworld-nodejs
+  SERVICE_NAME: teamway-test-work-planning-service
 
 jobs:
   setup-build-deploy:
