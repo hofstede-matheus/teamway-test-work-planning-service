@@ -6,7 +6,10 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-      - "postgres"
+      mongo:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
   postgres:
     image: 'postgres:15.1-alpine'
     ports:

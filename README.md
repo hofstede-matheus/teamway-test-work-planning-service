@@ -7,6 +7,16 @@
 
 cp .env.example .env
 cp .env.test.example .env.test
+
+# change: DATABASE_HOST=postgres
+# to    : DATABASE_HOST=localhost
+
+# change:
+# MONGODB_CONNECTION_STRING=mongodb://teamway-test-work-planning-service:teamway-test-work-planning-service@mongo:27017/?authMechanism=DEFAULT
+
+# to:
+# MONGODB_CONNECTION_STRING=mongodb://teamway-test-work-planning-service:teamway-test-work-planning-service@localhost:27017/?authMechanism=DEFAULT
+
 npm ci
 ```
 
@@ -62,7 +72,7 @@ Nest.js Monolith
 
 By default, the api uses a Postgres database managed by TypeORM, but via dependency injection, a MongoDB with Mongoose can be used, thus it is respecting the domain repository contract. The same behavior is ensured by integration tests.
 <br>
-Example in `Data (src/data)` section. 
+Example in `Data (src/data)` section.
 
 <br>
 
@@ -84,7 +94,7 @@ Example in `Data (src/data)` section.
 
 ## Infra
 
-The app Docker image is built using Google Cloud Build and deployed to Cloud Run. Serverless was chosen because this is a simple teste project, but in a real-world project Kubernates Engine could be used. 
+The app Docker image is built using Google Cloud Build and deployed to Cloud Run. Serverless was chosen because this is a simple teste project, but in a real-world project Kubernates Engine could be used.
 <br>
 In the dev environment, the databases are initialized using the docker-compose file.
 <br>
