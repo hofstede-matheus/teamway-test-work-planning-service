@@ -48,7 +48,7 @@ $ npm run test:integration
 
 ## OpenAPI Spec
 
-<http://localhost:3003/docs-json>
+<http://localhost:3001/docs-json>
 
 <br>
 <br>
