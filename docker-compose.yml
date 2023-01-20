@@ -6,10 +6,8 @@ services:
     ports:
       - "3001:3001"
     depends_on:
-      mongo:
-        condition: service_healthy
-      postgres:
-        condition: service_healthy
+      - mongo
+      - postgres
   postgres:
     image: 'postgres:15.1-alpine'
     ports:
@@ -30,6 +28,12 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
 volumes:
   postgres_data:
