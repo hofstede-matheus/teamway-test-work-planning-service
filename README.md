@@ -84,7 +84,7 @@ Example in `Data (src/data)` section.
 
 ## Infra
 
-The app Docker image is built using Google Cloud Build and deployed to Cloud Run.
+The app Docker image is built using Google Cloud Build and deployed to Cloud Run. Serverless was chosen because this is a simple teste project, but in a real-world project Kubernates Engine could be used. 
 <br>
 In the dev environment, the databases are initialized using the docker-compose file.
 <br>
