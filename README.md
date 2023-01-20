@@ -1,10 +1,14 @@
 # teamway-test-work-planning-service
 
-## Configure
+## Runing both app and databases via docker-compose:
 
 ```bash
-# only when not running via docker-compose
+docker-compose up --build
+```
 
+## Runing databases via docker-compose and app separately:
+
+```bash
 cp .env.example .env
 cp .env.test.example .env.test
 
@@ -17,18 +21,10 @@ cp .env.test.example .env.test
 # to:
 # MONGODB_CONNECTION_STRING=mongodb://teamway-test-work-planning-service:teamway-test-work-planning-service@localhost:27017/?authMechanism=DEFAULT
 
+# (as the node app is not inside the docker-compose network)
+
 npm ci
-```
 
-## Run
-
-```bash
-docker-compose up --build
-```
-
-or
-
-```bash
 docker-compose up postgres mongo
 npm run start:dev
 ```
