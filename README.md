@@ -160,15 +160,76 @@ in `workers.module.ts``.
 This project has two types of tests:
 <br>
 
-## Usecase tests:
+### Usecase tests:
 
 Tests both happy paths vs error paths. The business logic is tested exhaustively in this layer to protect behavior. Dependencies are mocked.
 
+```
+AttachWorkerToShiftUsecase
+      should NOT create a shift with invalid worker id
+      should NOT create shift with invalid start date
+      should NOT create shift with invalid end date
+      should NOT create shift when worker does not exists
+      should NOT create shift when worker already has a shift on the day
+      should NOT create shift when shift is already taken
+      should create shift
+
+CreateWorkerUsecase
+      should NOT create worker with invalid name
+      should create worker with valid name
+
+FindShiftsByDateRangeUsecase
+      should find shifts from range
+
+FindShiftsFromDayUsecase
+      should find shifts from a day
+
+FindWorkersUsecase
+      should NOT be able to find a single worker with invalid id
+      should NOT be able to find workers with invalid name
+      should be able to find a single worker by id
+      should be able to find all workers
+      should be able to find workers by name
+
+RemoveShiftUsecase
+      should NOT remove shift with invalid id
+      should remove shift with valid id
+
+RemoveWorkerUsecase
+      should NOT remove worker with invalid id
+      should remove worker with valid id
+
+UpdateWorkerUsecase
+      should NOT be able to update worker with invalid id
+      should NOT be able to update worker with invalid name
+      should be able to update worker
+
+```
+
 <br>
 
-## Integration tests:
+### Integration tests:
 
 Tests only the happy path, and some more critical flows. Uses a test database.
+
+```
+shifts.integration
+      should be able to attach a worker to a shift
+      should NOT create shift when worker already has a shift on the day
+      should be able to get shifts from a day
+      should be able to get shifts from a day range
+      should be able to remove a shift
+      should be able to remove a shift with other shifts on workday
+
+workers.integration
+      should be able to create a worker
+      should be able to find a worker by id
+      should be able to find all workers
+      should be able to find workers by name
+      should be able to update a worker
+      should be able to remove a worker
+```
+
 <br>
 <br>
 

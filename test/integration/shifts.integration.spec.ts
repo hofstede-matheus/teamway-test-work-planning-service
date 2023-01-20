@@ -27,7 +27,7 @@ describe('shifts', () => {
     await clearDatabase();
   });
 
-  it('shoud be able to attach a worker to a shift', async () => {
+  it('should be able to attach a worker to a shift', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
@@ -95,7 +95,7 @@ describe('shifts', () => {
     expect(bodyOfCreateShiftRequest.error).toBe('ShiftAlreadyTakenError');
   });
 
-  it('shoud be able to get shifts from a day', async () => {
+  it('should be able to get shifts from a day', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
@@ -135,7 +135,7 @@ describe('shifts', () => {
     expect(bodyOfGetShiftsRequest.shifts[0].updatedAt).toBeDefined();
   });
 
-  it('shoud be able to get shifts from a day range', async () => {
+  it('should be able to get shifts from a day range', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
@@ -222,7 +222,7 @@ describe('shifts', () => {
     ).toBeDefined();
   });
 
-  it('shoud be able to remove a shift', async () => {
+  it('should be able to remove a shift', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
@@ -265,7 +265,7 @@ describe('shifts', () => {
     expect(bodyOfGetShiftsRequest2.shifts.length).toBe(0);
   });
 
-  it('shoud be able to remove a shift with other shifts on workday', async () => {
+  it('should be able to remove a shift with other shifts on workday', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )

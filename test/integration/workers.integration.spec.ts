@@ -24,7 +24,7 @@ describe('workers', () => {
     await clearDatabase();
   });
 
-  it('shoud be able to create a worker', async () => {
+  it('should be able to create a worker', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
@@ -39,7 +39,7 @@ describe('workers', () => {
     expect(bodyOfCreateWorkerRequest.name).toBe(VALID_WORKER.name);
   });
 
-  it('shoud be able to find a worker by id', async () => {
+  it('should be able to find a worker by id', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
@@ -61,7 +61,7 @@ describe('workers', () => {
     expect(bodyOfGetWorkerRequest.updatedAt).toBeDefined();
   });
 
-  it('shoud be able to find all workers', async () => {
+  it('should be able to find all workers', async () => {
     const { body: bodyOfCreateWorkerRequest1 } = await request(
       app.getHttpServer(),
     )
@@ -98,7 +98,7 @@ describe('workers', () => {
     expect(bodyOfGetWorkerRequest[1].updatedAt).toBeDefined();
   });
 
-  it('shoud be able to find workers by name', async () => {
+  it('should be able to find workers by name', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
@@ -120,7 +120,7 @@ describe('workers', () => {
     expect(bodyOfGetWorkerRequest[0].updatedAt).toBeDefined();
   });
 
-  it('shoud be able to update a worker', async () => {
+  it('should be able to update a worker', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
@@ -157,7 +157,7 @@ describe('workers', () => {
     expect(bodyOfGetWorkerRequest.updatedAt).toBeDefined();
   });
 
-  it('shoud be able to remove a worker', async () => {
+  it('should be able to remove a worker', async () => {
     const { body: bodyOfCreateWorkerRequest } = await request(
       app.getHttpServer(),
     )
