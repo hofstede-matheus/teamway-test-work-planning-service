@@ -30,22 +30,10 @@ import { WorkersModule } from './workers.module';
       provide: ShiftRepository,
       useClass: TypeOrmShiftsRepository,
     },
-    {
-      provide: AttachWorkerToShiftUsecase,
-      useClass: AttachWorkerToShiftUsecase,
-    },
-    {
-      provide: FindShiftsFromDayUsecase,
-      useClass: FindShiftsFromDayUsecase,
-    },
-    {
-      provide: FindShiftsByDateRangeUsecase,
-      useClass: FindShiftsByDateRangeUsecase,
-    },
-    {
-      provide: RemoveShiftUsecase,
-      useClass: RemoveShiftUsecase,
-    },
+    AttachWorkerToShiftUsecase,
+    FindShiftsFromDayUsecase,
+    FindShiftsByDateRangeUsecase,
+    RemoveShiftUsecase,
   ],
   exports: [ShiftRepository],
 })

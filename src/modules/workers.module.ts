@@ -28,22 +28,10 @@ import { WorkersController } from '../presentation/http/controllers/v1/WorkersCo
       provide: WorkerRepository,
       useClass: TypeOrmWorkersRepository,
     },
-    {
-      provide: CreateWorkerUsecase,
-      useClass: CreateWorkerUsecase,
-    },
-    {
-      provide: FindWorkersUsecase,
-      useClass: FindWorkersUsecase,
-    },
-    {
-      provide: UpdateWorkerUsecase,
-      useClass: UpdateWorkerUsecase,
-    },
-    {
-      provide: RemoveWorkerUsecase,
-      useClass: RemoveWorkerUsecase,
-    },
+    CreateWorkerUsecase,
+    FindWorkersUsecase,
+    UpdateWorkerUsecase,
+    RemoveWorkerUsecase,
   ],
   exports: [WorkerRepository],
 })
